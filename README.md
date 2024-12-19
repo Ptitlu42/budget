@@ -1,67 +1,67 @@
-# Budget Mobile 💰
+# Budget 💰
 
-Application de gestion de budget conçue pour suivre les dépenses et revenus du couple.
+Budget management application designed to track couple's income and expenses.
 
-## ✨ Fonctionnalités principales
+## ✨ Key Features
 
-- 📊 Tableau de bord interactif avec graphiques en temps réel
-- 💰 Gestion des revenus par personne
-- 💸 Suivi des dépenses communes et individuelles
-- 📅 Historique et archivage automatique mensuel
+- 📊 Interactive dashboard with real-time charts
+- 💰 Individual income management
+- 💸 Shared and personal expense tracking
+- 📅 Monthly automatic archiving and history
 
 ## 🚀 Installation
 
-1. **Prérequis**
+1. **Requirements**
    - PHP 8.1+
    - Composer
    - MySQL
    - Node.js & NPM
 
-2. **Installation**
+2. **Setup**
 ```bash
-# Cloner le projet
-git clone https://github.com/votre-username/budget-mobile.git
+# Clone the project
+git clone https://github.com/your-username/budget-mobile.git
 cd budget-mobile
 
-# Installer les dépendances
+# Install dependencies
 composer install
 npm install
 
-# Configurer l'environnement
+# Configure environment
 cp .env.example .env
 php artisan key:generate
 
-# Migrer la base de données
+# Run migrations
 php artisan migrate
 
-# Compiler les assets
+# Build assets
 npm run dev
 
-# Lancer le serveur
+# Start server
 php artisan serve
 ```
 
 ## 🔧 Maintenance
 
-Commande d'archivage automatique :
+Automatic archiving command:
 ```bash
 php artisan archive:last-month
 ```
 
-## 🛡️ Sécurité
+## 🛡️ Security
 
-- ✅ Authentification requise
-- ✅ Protection CSRF
-- ✅ Validation des données
-- ✅ Transactions sécurisées
-- ✅ Verrouillage des archives
+- ✅ Required authentication
+- ✅ CSRF protection
+- ✅ Data validation
+- ✅ Secure transactions
+- ✅ Archive locking
 
-## 🎨 Personnalisation
+## 🎨 Customization
 
-- `public/css/history/styles.css` : styles globaux
-- `tailwind.config.js` : thèmes Tailwind
-- `.env` : configurations
+- `public/css/history/styles.css`: global styles
+- `tailwind.config.js`: Tailwind themes
+- `.env`: configurations
 
-## 📝 Licence
+## 📝 License
 
-Projet sous licence MIT.
+MIT License.
