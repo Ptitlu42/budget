@@ -1,0 +1,76 @@
+.glass-effect {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+}
+
+.hover-scale {
+    transition: transform 0.2s;
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+.gradient-border {
+    position: relative;
+    border-radius: 0.5rem;
+    background: linear-gradient(45deg, #6366F1, #EC4899);
+    padding: 1px;
+}
+
+.gradient-border > div {
+    background: #1a1a1a;
+    border-radius: 0.5rem;
+}
+
+.bg-darker {
+    background-color: #0f0f0f;
+}
+
+.bg-dark {
+    background-color: #1a1a1a;
+}
+
+.bg-dev {
+    background-color: #6366F1;
+}
+
+.bg-lemon {
+    background-color: #FFD700;
+}
+
+.text-dev {
+    color: #6366F1;
+}
+
+.text-lemon {
+    color: #FFD700;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="month"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+input[type="checkbox"] {
+    border-radius: 0.25rem;
+    border-color: #4B5563;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #6366F1;
+    border-color: #6366F1;
+}
+
+.form-checkbox:focus {
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.5);
+}
+
+.progress-bar {
+    height: 0.5rem;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+}
