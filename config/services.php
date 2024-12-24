@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'nordigen' => [
+        'url' => env('NORDIGEN_URL', 'https://ob.nordigen.com/api/v2'),
+        'secret_id' => env('NORDIGEN_SECRET_ID'),
+        'secret_key' => env('NORDIGEN_SECRET_KEY'),
+    ],
+
 ];

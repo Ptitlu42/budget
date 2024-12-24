@@ -14,7 +14,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('incomes', IncomeController::class);
     Route::resource('expenses', ExpenseController::class);
-    Route::resource('history', HistoryController::class)->except(['edit', 'update', 'destroy']);
+    Route::resource('history', HistoryController::class)->except(['edit', 'update']);
     Route::post('history/archive-current', [HistoryController::class, 'archiveCurrentMonth'])->name('history.archive-current');
     Route::post('custom-types', [CustomTypeController::class, 'store'])->name('custom-types.store');
 

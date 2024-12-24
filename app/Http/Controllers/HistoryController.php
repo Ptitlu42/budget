@@ -196,4 +196,10 @@ class HistoryController extends Controller
     {
         return view('history.show', compact('history'));
     }
+
+    public function destroy(History $history)
+    {
+        $history->delete();
+        return redirect()->route('history.index')->with('success', 'Mois supprimé avec succès');
+    }
 }

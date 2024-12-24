@@ -64,10 +64,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="{{ route('history.show', $month) }}"
-                                        class="text-white hover:text-gray-300 transition">
-                                        <i class="fas fa-eye text-2xl"></i>
-                                    </a>
+                                    <div class="flex items-center space-x-4">
+                                        <a href="{{ route('history.show', $month) }}"
+                                            class="text-white hover:text-gray-300 transition">
+                                            <i class="fas fa-eye text-2xl"></i>
+                                        </a>
+                                        <form action="{{ route('history.destroy', $month) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="text-red-500 hover:text-red-700 transition"
+                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce mois ? Cette action est irréversible.')">
+                                                <i class="fas fa-trash text-2xl"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
