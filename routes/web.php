@@ -16,6 +16,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('expenses', ExpenseController::class);
     Route::resource('history', HistoryController::class)->except(['edit', 'update']);
     Route::post('history/archive-current', [HistoryController::class, 'archiveCurrentMonth'])->name('history.archive-current');
+    Route::post('history/{history}/unarchive', [HistoryController::class, 'unarchive'])->name('history.unarchive');
     Route::post('custom-types', [CustomTypeController::class, 'store'])->name('custom-types.store');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -69,6 +69,14 @@
                                             class="text-white hover:text-gray-300 transition">
                                             <i class="fas fa-eye text-2xl"></i>
                                         </a>
+                                        <form action="{{ route('history.unarchive', $month) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit"
+                                                class="text-green-500 hover:text-green-700 transition"
+                                                onclick="return confirm('Êtes-vous sûr de vouloir désarchiver ce mois ? Il sera disponible pour modification.')">
+                                                <i class="fas fa-box-open text-2xl"></i>
+                                            </button>
+                                        </form>
                                         <form action="{{ route('history.destroy', $month) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')

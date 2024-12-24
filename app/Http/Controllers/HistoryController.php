@@ -202,4 +202,43 @@ class HistoryController extends Controller
         $history->delete();
         return redirect()->route('history.index')->with('success', 'Mois supprimé avec succès');
     }
+
+    public function unarchive(History $history)
+    {
+        DB::beginTransaction();
+        try {
+            // Créer les revenus
+            foreach ($history->incomes_data as $income) {
+                Income::create([
+                    'description' => $income['description'],
+                    'amount' => $income['amount'],
+                    'type' => $income['type'],
+                    'date' => $income['date'],
+                    'user_id' => $income['user_id'],
+                    'locked' => false
+                ]);
+            }
+
+            // Créer les dépenses
+            foreach ($history->expenses_data as $expense) {
+                Expense::create([
+                    'description' => $expense['description'],
+                    'amount' => $expense['amount'],
+                    'type' => $expense['type'],
+                    'date' => $expense['date'],
+                    'is_shared' => $expense['is_shared'],
+                    'locked' => false
+                ]);
+            }
+
+            // Supprimer l'historique
+            $history->delete();
+
+            DB::commit();
+            return redirect()->route('dashboard')->with('success', 'Le mois a été désarchivé avec succès');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la désarchivation');
+        }
+    }
 }
