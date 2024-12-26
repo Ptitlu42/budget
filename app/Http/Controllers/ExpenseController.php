@@ -21,6 +21,7 @@ class ExpenseController extends Controller
             ->get()
             ->map(function ($user) use ($totalIncomes) {
                 $user->share_percentage = ($totalIncomes > 0) ? ($user->total_income / $totalIncomes) * 100 : 0;
+
                 return $user;
             });
 
@@ -39,7 +40,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric|min:0',
             'type' => 'required|in:rent,utilities,insurance,groceries,other',
             'date' => 'required|date',
-            'is_shared' => 'boolean'
+            'is_shared' => 'boolean',
         ]);
 
         Expense::create($validated);
@@ -67,7 +68,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric|min:0',
             'type' => 'required|in:rent,utilities,insurance,groceries,other',
             'date' => 'required|date',
-            'is_shared' => 'boolean'
+            'is_shared' => 'boolean',
         ]);
 
         $expense->update($validated);
@@ -82,6 +83,7 @@ class ExpenseController extends Controller
         }
 
         $expense->delete();
+
         return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully');
     }
 }

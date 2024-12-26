@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Expense;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ExpenseTest extends TestCase
 {
@@ -33,7 +33,7 @@ class ExpenseTest extends TestCase
             'amount' => 100.50,
             'type' => 'utilities',
             'date' => '2024-01-01',
-            'is_shared' => true
+            'is_shared' => true,
         ];
 
         $response = $this->actingAs($this->user)
@@ -42,14 +42,14 @@ class ExpenseTest extends TestCase
         $response->assertRedirect('/expenses');
         $this->assertDatabaseHas('expenses', array_merge($expenseData, [
             'date' => Carbon::parse($expenseData['date'])->format('Y-m-d H:i:s'),
-            'is_shared' => true
+            'is_shared' => true,
         ]));
     }
 
     public function test_expense_can_be_updated(): void
     {
         $expense = Expense::factory()->create([
-            'type' => 'utilities'
+            'type' => 'utilities',
         ]);
 
         $updatedData = [
@@ -57,7 +57,7 @@ class ExpenseTest extends TestCase
             'amount' => 200.75,
             'type' => 'rent',
             'date' => '2024-01-02',
-            'is_shared' => false
+            'is_shared' => false,
         ];
 
         $response = $this->actingAs($this->user)
@@ -66,7 +66,7 @@ class ExpenseTest extends TestCase
         $response->assertRedirect('/expenses');
         $this->assertDatabaseHas('expenses', array_merge($updatedData, [
             'date' => Carbon::parse($updatedData['date'])->format('Y-m-d H:i:s'),
-            'is_shared' => false
+            'is_shared' => false,
         ]));
     }
 
@@ -89,7 +89,7 @@ class ExpenseTest extends TestCase
                 'amount' => 'not-a-number',
                 'type' => 'invalid-type',
                 'date' => 'not-a-date',
-                'is_shared' => 'not-a-boolean'
+                'is_shared' => 'not-a-boolean',
             ]);
 
         $response->assertSessionHasErrors(['description', 'amount', 'type', 'date', 'is_shared']);
@@ -106,7 +106,7 @@ class ExpenseTest extends TestCase
                 'amount' => 200,
                 'type' => 'utilities',
                 'date' => '2024-01-02',
-                'is_shared' => false
+                'is_shared' => false,
             ]);
 
         $response->assertForbidden();
@@ -114,7 +114,7 @@ class ExpenseTest extends TestCase
             'id' => $expense->id,
             'description' => $originalData['description'],
             'amount' => $originalData['amount'],
-            'type' => $originalData['type']
+            'type' => $originalData['type'],
         ]);
     }
 }

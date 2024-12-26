@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Expense extends Model
 {
@@ -15,18 +15,18 @@ class Expense extends Model
         'type',
         'date',
         'is_shared',
-        'locked'
+        'locked',
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
         'is_shared' => 'boolean',
         'locked' => 'boolean',
-        'date' => 'date'
+        'date' => 'date',
     ];
 
     protected $attributes = [
         'is_shared' => true,
-        'locked' => false
+        'locked' => false,
     ];
 }

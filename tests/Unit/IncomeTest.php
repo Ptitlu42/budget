@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use App\Models\Income;
 use App\Models\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class IncomeTest extends TestCase
 {
@@ -20,7 +20,7 @@ class IncomeTest extends TestCase
             'amount',
             'type',
             'date',
-            'locked'
+            'locked',
         ];
 
         $this->assertEquals($expectedFillable, $income->getFillable());
@@ -32,7 +32,7 @@ class IncomeTest extends TestCase
         $expectedCasts = [
             'date' => 'date',
             'amount' => 'decimal:2',
-            'locked' => 'boolean'
+            'locked' => 'boolean',
         ];
 
         $actualCasts = array_intersect_key($income->getCasts(), $expectedCasts);
@@ -54,7 +54,7 @@ class IncomeTest extends TestCase
     public function test_income_amount_is_stored_as_decimal(): void
     {
         $income = Income::factory()->create([
-            'amount' => 1000.50
+            'amount' => 1000.50,
         ]);
 
         $this->assertEquals(1000.50, $income->amount);
@@ -64,7 +64,7 @@ class IncomeTest extends TestCase
     public function test_income_type_is_valid(): void
     {
         $income = Income::factory()->create([
-            'type' => 'salary'
+            'type' => 'salary',
         ]);
 
         $this->assertEquals('salary', $income->type);

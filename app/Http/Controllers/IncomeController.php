@@ -11,6 +11,7 @@ class IncomeController extends Controller
     public function index()
     {
         $incomes = Income::where('user_id', Auth::id())->orderBy('date', 'desc')->get();
+
         return view('incomes.index', compact('incomes'));
     }
 
@@ -25,7 +26,7 @@ class IncomeController extends Controller
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'type' => 'required|in:salary,aid,other',
-            'date' => 'required|date'
+            'date' => 'required|date',
         ]);
 
         $validated['user_id'] = Auth::id();
@@ -53,7 +54,7 @@ class IncomeController extends Controller
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'type' => 'required|in:salary,aid,other',
-            'date' => 'required|date'
+            'date' => 'required|date',
         ]);
 
         $income->update($validated);
@@ -68,6 +69,7 @@ class IncomeController extends Controller
         }
 
         $income->delete();
+
         return redirect()->route('incomes.index')->with('success', 'Income deleted successfully');
     }
 }

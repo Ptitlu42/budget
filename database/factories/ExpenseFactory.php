@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Expense;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExpenseFactory extends Factory
 {
@@ -18,7 +18,7 @@ class ExpenseFactory extends Factory
             'type' => $this->faker->randomElement(['rent', 'utilities', 'insurance', 'food', 'other']),
             'date' => Carbon::now(),
             'is_shared' => $this->faker->boolean(80),
-            'locked' => false
+            'locked' => false,
         ];
     }
 
@@ -27,7 +27,7 @@ class ExpenseFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'locked' => true,
-                'type' => 'utilities'
+                'type' => 'utilities',
             ];
         });
     }
@@ -36,7 +36,7 @@ class ExpenseFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_shared' => true
+                'is_shared' => true,
             ];
         });
     }
@@ -45,7 +45,7 @@ class ExpenseFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'is_shared' => false
+                'is_shared' => false,
             ];
         });
     }

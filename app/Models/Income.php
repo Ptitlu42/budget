@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Income extends Model
@@ -16,17 +16,17 @@ class Income extends Model
         'amount',
         'type',
         'date',
-        'locked'
+        'locked',
     ];
 
     protected $casts = [
         'date' => 'date',
         'amount' => 'decimal:2',
-        'locked' => 'boolean'
+        'locked' => 'boolean',
     ];
 
     protected $attributes = [
-        'locked' => false
+        'locked' => false,
     ];
 
     public function user(): BelongsTo

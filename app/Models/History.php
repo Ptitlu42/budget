@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class History extends Model
 {
@@ -18,7 +18,7 @@ class History extends Model
         'total_incomes',
         'total_expenses',
         'total_shared_expenses',
-        'shares_data'
+        'shares_data',
     ];
 
     protected $casts = [
@@ -28,6 +28,6 @@ class History extends Model
         'total_incomes' => 'decimal:2',
         'total_expenses' => 'decimal:2',
         'total_shared_expenses' => 'decimal:2',
-        'shares_data' => 'array'
+        'shares_data' => 'array',
     ];
 }

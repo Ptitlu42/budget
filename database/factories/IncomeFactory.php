@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Income;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class IncomeFactory extends Factory
 {
@@ -19,7 +19,7 @@ class IncomeFactory extends Factory
             'type' => $this->faker->randomElement(['salary', 'aid', 'other']),
             'date' => Carbon::now(),
             'user_id' => User::factory(),
-            'locked' => false
+            'locked' => false,
         ];
     }
 
@@ -27,7 +27,7 @@ class IncomeFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'locked' => true
+                'locked' => true,
             ];
         });
     }
@@ -36,7 +36,7 @@ class IncomeFactory extends Factory
     {
         return $this->state(function (array $attributes) use ($user) {
             return [
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ];
         });
     }

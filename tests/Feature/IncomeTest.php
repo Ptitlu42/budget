@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Income;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class IncomeTest extends TestCase
 {
@@ -34,7 +34,7 @@ class IncomeTest extends TestCase
             'description' => 'Test Income',
             'amount' => 1000.50,
             'type' => 'salary',
-            'date' => '2024-01-01'
+            'date' => '2024-01-01',
         ];
 
         $response = $this->actingAs($this->user)
@@ -43,7 +43,7 @@ class IncomeTest extends TestCase
         $response->assertRedirect('/incomes');
         $this->assertDatabaseHas('incomes', array_merge($incomeData, [
             'user_id' => $this->user->id,
-            'date' => Carbon::parse($incomeData['date'])->format('Y-m-d H:i:s')
+            'date' => Carbon::parse($incomeData['date'])->format('Y-m-d H:i:s'),
         ]));
     }
 
@@ -54,7 +54,7 @@ class IncomeTest extends TestCase
             'description' => 'Updated Income',
             'amount' => 2000.75,
             'type' => 'aid',
-            'date' => '2024-01-02'
+            'date' => '2024-01-02',
         ];
 
         $response = $this->actingAs($this->user)
@@ -63,7 +63,7 @@ class IncomeTest extends TestCase
         $response->assertRedirect('/incomes');
         $this->assertDatabaseHas('incomes', array_merge($updatedData, [
             'user_id' => $this->user->id,
-            'date' => Carbon::parse($updatedData['date'])->format('Y-m-d H:i:s')
+            'date' => Carbon::parse($updatedData['date'])->format('Y-m-d H:i:s'),
         ]));
     }
 
@@ -96,7 +96,7 @@ class IncomeTest extends TestCase
                 'description' => '',
                 'amount' => 'not-a-number',
                 'type' => 'invalid-type',
-                'date' => 'not-a-date'
+                'date' => 'not-a-date',
             ]);
 
         $response->assertSessionHasErrors(['description', 'amount', 'type', 'date']);
@@ -112,7 +112,7 @@ class IncomeTest extends TestCase
                 'description' => 'Try to update locked income',
                 'amount' => 2000,
                 'type' => 'aid',
-                'date' => '2024-01-02'
+                'date' => '2024-01-02',
             ]);
 
         $response->assertForbidden();
@@ -120,7 +120,7 @@ class IncomeTest extends TestCase
             'id' => $income->id,
             'description' => $originalData['description'],
             'amount' => $originalData['amount'],
-            'type' => $originalData['type']
+            'type' => $originalData['type'],
         ]);
     }
 }

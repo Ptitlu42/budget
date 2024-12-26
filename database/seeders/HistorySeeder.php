@@ -31,7 +31,7 @@ class HistorySeeder extends Seeder
                     'type' => 'salary',
                     'date' => $date,
                     'user_id' => $lemon->id,
-                ]
+                ],
             ];
 
             $ptitluIncomes = [
@@ -48,7 +48,7 @@ class HistorySeeder extends Seeder
                     'type' => 'aid',
                     'date' => $date,
                     'user_id' => $ptitlu->id,
-                ]
+                ],
             ];
 
             $expenses = [
@@ -86,7 +86,7 @@ class HistorySeeder extends Seeder
                     'type' => 'insurance',
                     'date' => $date,
                     'is_shared' => true,
-                ]
+                ],
             ];
 
             for ($j = 0; $j < rand(3, 5); $j++) {
@@ -108,14 +108,14 @@ class HistorySeeder extends Seeder
                     'name' => $lemon->name,
                     'email' => $lemon->email,
                     'total_income' => collect($lemonIncomes)->sum('amount'),
-                    'share_percentage' => (collect($lemonIncomes)->sum('amount') / $total_incomes) * 100
+                    'share_percentage' => (collect($lemonIncomes)->sum('amount') / $total_incomes) * 100,
                 ],
                 [
                     'name' => $ptitlu->name,
                     'email' => $ptitlu->email,
                     'total_income' => collect($ptitluIncomes)->sum('amount'),
-                    'share_percentage' => (collect($ptitluIncomes)->sum('amount') / $total_incomes) * 100
-                ]
+                    'share_percentage' => (collect($ptitluIncomes)->sum('amount') / $total_incomes) * 100,
+                ],
             ];
 
             History::create([
@@ -125,7 +125,7 @@ class HistorySeeder extends Seeder
                 'total_incomes' => $total_incomes,
                 'total_expenses' => $total_expenses,
                 'total_shared_expenses' => $total_shared_expenses,
-                'shares_data' => $shares
+                'shares_data' => $shares,
             ]);
         }
     }

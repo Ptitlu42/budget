@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
+use App\Models\Expense;
 use App\Models\History;
 use App\Models\Income;
-use App\Models\Expense;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class HistoryTest extends TestCase
 {
@@ -39,8 +39,8 @@ class HistoryTest extends TestCase
                 'amount' => 1000.00,
                 'type' => 'salary',
                 'date' => $date->format('Y-m'),
-                'user_id' => $this->user->id
-            ]
+                'user_id' => $this->user->id,
+            ],
         ];
 
         $expenses = [
@@ -49,14 +49,14 @@ class HistoryTest extends TestCase
                 'amount' => 500.00,
                 'type' => 'rent',
                 'date' => $date->format('Y-m'),
-                'is_shared' => true
-            ]
+                'is_shared' => true,
+            ],
         ];
 
         $response = $this->actingAs($this->user)->post('/history', [
             'month_year' => $date->format('Y-m'),
             'incomes' => $incomes,
-            'expenses' => $expenses
+            'expenses' => $expenses,
         ]);
 
         $response->assertRedirect('/history');
@@ -64,7 +64,7 @@ class HistoryTest extends TestCase
             'month_year' => $date->format('Y-m-d H:i:s'),
             'total_incomes' => 1000.00,
             'total_expenses' => 500.00,
-            'total_shared_expenses' => 500.00
+            'total_shared_expenses' => 500.00,
         ]);
     }
 
@@ -74,14 +74,14 @@ class HistoryTest extends TestCase
         Income::factory()->forUser($this->user)->create([
             'amount' => 1000.00,
             'date' => $date,
-            'type' => 'salary'
+            'type' => 'salary',
         ]);
 
         Expense::factory()->create([
             'amount' => 500.00,
             'date' => $date,
             'is_shared' => true,
-            'type' => 'utilities'
+            'type' => 'utilities',
         ]);
 
         $response = $this->actingAs($this->user)->post('/history/archive-current');
@@ -91,14 +91,14 @@ class HistoryTest extends TestCase
             'month_year' => $date->format('Y-m-d H:i:s'),
             'total_incomes' => 1000.00,
             'total_expenses' => 500.00,
-            'total_shared_expenses' => 500.00
+            'total_shared_expenses' => 500.00,
         ]);
     }
 
     public function test_history_can_be_updated(): void
     {
         $history = History::factory()->create([
-            'month_year' => Carbon::now()->startOfMonth()
+            'month_year' => Carbon::now()->startOfMonth(),
         ]);
 
         $updatedData = [
@@ -108,8 +108,8 @@ class HistoryTest extends TestCase
                     'amount' => 2000.00,
                     'type' => 'salary',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'user_id' => $this->user->id
-                ]
+                    'user_id' => $this->user->id,
+                ],
             ],
             'expenses' => [
                 [
@@ -117,9 +117,9 @@ class HistoryTest extends TestCase
                     'amount' => 1000.00,
                     'type' => 'rent',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'is_shared' => true
-                ]
-            ]
+                    'is_shared' => true,
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->user)
@@ -130,14 +130,14 @@ class HistoryTest extends TestCase
             'id' => $history->id,
             'total_incomes' => 2000.00,
             'total_expenses' => 1000.00,
-            'total_shared_expenses' => 1000.00
+            'total_shared_expenses' => 1000.00,
         ]);
     }
 
     public function test_history_can_be_updated_with_multiple_entries(): void
     {
         $history = History::factory()->create([
-            'month_year' => Carbon::now()->startOfMonth()
+            'month_year' => Carbon::now()->startOfMonth(),
         ]);
 
         $updatedData = [
@@ -147,15 +147,15 @@ class HistoryTest extends TestCase
                     'amount' => 2000.00,
                     'type' => 'salary',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'user_id' => $this->user->id
+                    'user_id' => $this->user->id,
                 ],
                 [
                     'description' => 'Second Income',
                     'amount' => 1000.00,
                     'type' => 'aid',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'user_id' => $this->user->id
-                ]
+                    'user_id' => $this->user->id,
+                ],
             ],
             'expenses' => [
                 [
@@ -163,16 +163,16 @@ class HistoryTest extends TestCase
                     'amount' => 1000.00,
                     'type' => 'rent',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'is_shared' => true
+                    'is_shared' => true,
                 ],
                 [
                     'description' => 'Second Expense',
                     'amount' => 500.00,
                     'type' => 'utilities',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'is_shared' => false
-                ]
-            ]
+                    'is_shared' => false,
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->user)
@@ -183,7 +183,7 @@ class HistoryTest extends TestCase
             'id' => $history->id,
             'total_incomes' => 3000.00,
             'total_expenses' => 1500.00,
-            'total_shared_expenses' => 1000.00
+            'total_shared_expenses' => 1000.00,
         ]);
 
         $history->refresh();
@@ -201,15 +201,15 @@ class HistoryTest extends TestCase
                     'amount' => 2000.00,
                     'type' => 'salary',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'user_id' => $this->user->id
+                    'user_id' => $this->user->id,
                 ],
                 [
                     'description' => 'Second Income',
                     'amount' => 1000.00,
                     'type' => 'aid',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'user_id' => $this->user->id
-                ]
+                    'user_id' => $this->user->id,
+                ],
             ],
             'expenses_data' => [
                 [
@@ -217,19 +217,19 @@ class HistoryTest extends TestCase
                     'amount' => 1000.00,
                     'type' => 'rent',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'is_shared' => true
+                    'is_shared' => true,
                 ],
                 [
                     'description' => 'Second Expense',
                     'amount' => 500.00,
                     'type' => 'utilities',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'is_shared' => false
-                ]
+                    'is_shared' => false,
+                ],
             ],
             'total_incomes' => 3000.00,
             'total_expenses' => 1500.00,
-            'total_shared_expenses' => 1000.00
+            'total_shared_expenses' => 1000.00,
         ]);
 
         $updatedData = [
@@ -239,8 +239,8 @@ class HistoryTest extends TestCase
                     'amount' => 2000.00,
                     'type' => 'salary',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'user_id' => $this->user->id
-                ]
+                    'user_id' => $this->user->id,
+                ],
             ],
             'expenses' => [
                 [
@@ -248,9 +248,9 @@ class HistoryTest extends TestCase
                     'amount' => 1000.00,
                     'type' => 'rent',
                     'date' => Carbon::now()->format('Y-m-d'),
-                    'is_shared' => true
-                ]
-            ]
+                    'is_shared' => true,
+                ],
+            ],
         ];
 
         $response = $this->actingAs($this->user)
@@ -261,7 +261,7 @@ class HistoryTest extends TestCase
             'id' => $history->id,
             'total_incomes' => 2000.00,
             'total_expenses' => 1000.00,
-            'total_shared_expenses' => 1000.00
+            'total_shared_expenses' => 1000.00,
         ]);
 
         $history->refresh();
@@ -272,7 +272,7 @@ class HistoryTest extends TestCase
     public function test_history_can_be_deleted(): void
     {
         $history = History::factory()->create([
-            'month_year' => Carbon::now()->startOfMonth()
+            'month_year' => Carbon::now()->startOfMonth(),
         ]);
 
         $response = $this->actingAs($this->user)
@@ -288,7 +288,7 @@ class HistoryTest extends TestCase
             ->post('/history', [
                 'month_year' => 'not-a-date',
                 'incomes' => 'not-an-array',
-                'expenses' => 'not-an-array'
+                'expenses' => 'not-an-array',
             ]);
 
         $response->assertSessionHasErrors(['month_year', 'incomes', 'expenses']);
@@ -298,13 +298,13 @@ class HistoryTest extends TestCase
     {
         $date = Carbon::now()->startOfMonth();
         History::factory()->create([
-            'month_year' => $date
+            'month_year' => $date,
         ]);
 
         Income::factory()->forUser($this->user)->create([
             'amount' => 1000.00,
             'date' => $date,
-            'type' => 'salary'
+            'type' => 'salary',
         ]);
 
         $response = $this->actingAs($this->user)
@@ -321,7 +321,7 @@ class HistoryTest extends TestCase
         $response = $this->actingAs($this->user)
             ->put("/history/{$history->id}", [
                 'incomes' => 'not-an-array',
-                'expenses' => 'not-an-array'
+                'expenses' => 'not-an-array',
             ]);
 
         $response->assertSessionHasErrors(['incomes', 'expenses']);

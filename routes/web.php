@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\CustomTypeController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HistoryController;
-use App\Http\Controllers\CustomTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {

@@ -11,16 +11,17 @@ class CustomTypeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|in:income,expense'
+            'category' => 'required|in:income,expense',
         ]);
 
         try {
             CustomType::create($validated);
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ce type existe déjà'
+                'message' => 'Ce type existe déjà',
             ], 422);
         }
     }

@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use App\Models\Expense;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ExpenseTest extends TestCase
 {
@@ -19,7 +19,7 @@ class ExpenseTest extends TestCase
             'type',
             'date',
             'is_shared',
-            'locked'
+            'locked',
         ];
 
         $this->assertEquals($fillable, $expense->getFillable());
@@ -32,7 +32,7 @@ class ExpenseTest extends TestCase
             'amount' => 'decimal:2',
             'is_shared' => 'boolean',
             'locked' => 'boolean',
-            'date' => 'date'
+            'date' => 'date',
         ];
 
         $actualCasts = array_intersect_key($expense->getCasts(), $expectedCasts);
@@ -55,7 +55,7 @@ class ExpenseTest extends TestCase
     {
         $expense = Expense::factory()->create([
             'amount' => 1000.50,
-            'type' => 'utilities'
+            'type' => 'utilities',
         ]);
 
         $this->assertEquals(1000.50, $expense->amount);
@@ -65,7 +65,7 @@ class ExpenseTest extends TestCase
     public function test_expense_type_is_valid(): void
     {
         $expense = Expense::factory()->create([
-            'type' => 'utilities'
+            'type' => 'utilities',
         ]);
 
         $this->assertEquals('utilities', $expense->type);

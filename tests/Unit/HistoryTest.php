@@ -3,9 +3,9 @@
 namespace Tests\Unit;
 
 use App\Models\History;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class HistoryTest extends TestCase
 {
@@ -21,7 +21,7 @@ class HistoryTest extends TestCase
             'total_incomes',
             'total_expenses',
             'total_shared_expenses',
-            'shares_data'
+            'shares_data',
         ];
 
         $this->assertEquals($expectedFillable, $history->getFillable());
@@ -37,7 +37,7 @@ class HistoryTest extends TestCase
             'total_incomes' => 'decimal:2',
             'total_expenses' => 'decimal:2',
             'total_shared_expenses' => 'decimal:2',
-            'shares_data' => 'array'
+            'shares_data' => 'array',
         ];
 
         $actualCasts = array_intersect_key($history->getCasts(), $expectedCasts);
@@ -63,7 +63,7 @@ class HistoryTest extends TestCase
         $history = History::factory()->create([
             'total_incomes' => 1000.50,
             'total_expenses' => 500.25,
-            'total_shared_expenses' => 250.75
+            'total_shared_expenses' => 250.75,
         ]);
 
         $this->assertEquals(1000.50, $history->total_incomes);
@@ -80,21 +80,21 @@ class HistoryTest extends TestCase
             [
                 'description' => 'Test Income',
                 'amount' => 1000.00,
-                'type' => 'salary'
-            ]
+                'type' => 'salary',
+            ],
         ];
 
         $expensesData = [
             [
                 'description' => 'Test Expense',
                 'amount' => 500.00,
-                'type' => 'rent'
-            ]
+                'type' => 'rent',
+            ],
         ];
 
         $history = History::factory()->create([
             'incomes_data' => $incomesData,
-            'expenses_data' => $expensesData
+            'expenses_data' => $expensesData,
         ]);
 
         $this->assertEquals($incomesData, $history->incomes_data);
@@ -107,7 +107,7 @@ class HistoryTest extends TestCase
     {
         $date = Carbon::create(2024, 1, 1);
         $history = History::factory()->create([
-            'month_year' => $date
+            'month_year' => $date,
         ]);
 
         $this->assertEquals($date->format('Y-m-d'), $history->month_year->format('Y-m-d'));
