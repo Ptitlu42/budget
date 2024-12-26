@@ -1,5 +1,9 @@
 # Budget 💰
-
+![alt text](image-1.png)
+![alt text](image.png)
+![alt text](image-2.png)
+![alt text](image-3.png)
+![alt text](image-4.png)
 Budget management application designed to track couple's income and expenses.
 
 ## ✨ Key Features
@@ -14,7 +18,6 @@ Budget management application designed to track couple's income and expenses.
 1. **Requirements**
    - PHP 8.1+
    - Composer
-   - MySQL
    - Node.js & NPM
 
 2. **Setup**

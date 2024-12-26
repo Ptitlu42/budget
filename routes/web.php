@@ -14,14 +14,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('incomes', IncomeController::class);
     Route::resource('expenses', ExpenseController::class);
-    Route::resource('history', HistoryController::class)->except(['edit', 'update']);
+    Route::resource('history', HistoryController::class);
     Route::post('history/archive-current', [HistoryController::class, 'archiveCurrentMonth'])->name('history.archive-current');
-    Route::post('history/{history}/unarchive', [HistoryController::class, 'unarchive'])->name('history.unarchive');
     Route::post('custom-types', [CustomTypeController::class, 'store'])->name('custom-types.store');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
 });
 
 require __DIR__.'/auth.php';

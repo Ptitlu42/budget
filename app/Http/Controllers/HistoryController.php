@@ -181,7 +181,7 @@ class HistoryController extends Controller
         $currentMonth = Carbon::now()->startOfMonth();
 
         if (History::where('month_year', $currentMonth)->exists()) {
-            return redirect()->back()->with('error', 'History for this month already exists');
+            return redirect()->back()->withErrors(['error' => 'History for this month already exists'])->withInput();
         }
 
         try {
@@ -197,45 +197,79 @@ class HistoryController extends Controller
         return view('history.show', compact('history'));
     }
 
+    public function edit(History $history)
+    {
+        return view('history.edit', compact('history'));
+    }
+
     public function destroy(History $history)
     {
         $history->delete();
         return redirect()->route('history.index')->with('success', 'Month deleted successfully');
     }
 
-    public function unarchive(History $history)
+    public function update(Request $request, History $history)
     {
+        $validated = $request->validate([
+            'incomes' => 'required|array|min:1',
+            'incomes.*.description' => 'required|string|max:255',
+            'incomes.*.amount' => 'required|numeric|min:0|max:999999999.99',
+            'incomes.*.type' => 'required|string|max:50',
+            'incomes.*.date' => 'required|date',
+            'incomes.*.user_id' => 'required|exists:users,id',
+            'expenses' => 'required|array|min:1',
+            'expenses.*.description' => 'required|string|max:255',
+            'expenses.*.amount' => 'required|numeric|min:0|max:999999999.99',
+            'expenses.*.type' => 'required|string|max:50',
+            'expenses.*.date' => 'required|date',
+            'expenses.*.is_shared' => 'nullable|boolean'
+        ]);
+
         DB::beginTransaction();
         try {
-            foreach ($history->incomes_data as $income) {
-                Income::create([
-                    'description' => $income['description'],
-                    'amount' => $income['amount'],
-                    'type' => $income['type'],
-                    'date' => $income['date'],
-                    'user_id' => $income['user_id'],
-                    'locked' => false
-                ]);
-            }
+            $expenses = collect($validated['expenses'])->map(function ($expense) {
+                $expense['is_shared'] = isset($expense['is_shared']) && $expense['is_shared'] == '1';
+                $expense['type'] = strtolower($expense['type']);
+                return $expense;
+            })->toArray();
 
-            foreach ($history->expenses_data as $expense) {
-                Expense::create([
-                    'description' => $expense['description'],
-                    'amount' => $expense['amount'],
-                    'type' => $expense['type'],
-                    'date' => $expense['date'],
-                    'is_shared' => $expense['is_shared'],
-                    'locked' => false
-                ]);
-            }
+            $incomes = collect($validated['incomes'])->map(function ($income) {
+                $income['type'] = strtolower($income['type']);
+                return $income;
+            })->toArray();
 
-            $history->delete();
+            $total_incomes = collect($incomes)->sum('amount');
+            $total_expenses = collect($expenses)->sum('amount');
+            $total_shared_expenses = collect($expenses)
+                ->where('is_shared', true)
+                ->sum('amount');
+
+            $shares = collect($incomes)
+                ->groupBy('user_id')
+                ->map(function ($userIncomes) use ($total_incomes) {
+                    $user = DB::table('users')->where('id', $userIncomes->first()['user_id'])->first();
+                    return [
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'total_income' => collect($userIncomes)->sum('amount'),
+                        'share_percentage' => ($total_incomes > 0) ? (collect($userIncomes)->sum('amount') / $total_incomes) * 100 : 0
+                    ];
+                })->values();
+
+            $history->update([
+                'incomes_data' => $incomes,
+                'expenses_data' => $expenses,
+                'total_incomes' => $total_incomes,
+                'total_expenses' => $total_expenses,
+                'total_shared_expenses' => $total_shared_expenses,
+                'shares_data' => $shares->toArray()
+            ]);
 
             DB::commit();
-            return redirect()->route('dashboard')->with('success', 'Month unarchived successfully');
+            return redirect()->route('history.index')->with('success', 'History updated successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'An error occurred while unarchiving');
+            return redirect()->back()->with('error', 'An error occurred while updating history')->withInput();
         }
     }
 }
