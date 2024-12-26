@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initRevenusChart(users) {
+    const isMobile = window.innerWidth < 768;
     const revenusData = {
         labels: users.map(user => user.name),
         datasets: [{
@@ -31,11 +32,16 @@ function initRevenusChart(users) {
         data: revenusData,
         options: {
             responsive: true,
+            maintainAspectRatio: !isMobile,
             plugins: {
                 legend: {
-                    position: 'bottom',
+                    position: isMobile ? 'bottom' : 'right',
                     labels: {
-                        color: 'white'
+                        color: 'white',
+                        font: {
+                            size: isMobile ? 12 : 14
+                        },
+                        padding: isMobile ? 10 : 20
                     }
                 }
             }
@@ -44,6 +50,7 @@ function initRevenusChart(users) {
 }
 
 function initDepensesChart(expenses) {
+    const isMobile = window.innerWidth < 768;
     const labels = {
         rent: 'Rent',
         insurance: 'Insurance',
@@ -71,11 +78,16 @@ function initDepensesChart(expenses) {
         data: depensesData,
         options: {
             responsive: true,
+            maintainAspectRatio: !isMobile,
             plugins: {
                 legend: {
-                    position: 'bottom',
+                    position: isMobile ? 'bottom' : 'right',
                     labels: {
-                        color: 'white'
+                        color: 'white',
+                        font: {
+                            size: isMobile ? 12 : 14
+                        },
+                        padding: isMobile ? 10 : 20
                     }
                 }
             }

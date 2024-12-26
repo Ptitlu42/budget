@@ -20,6 +20,7 @@ class HistoryEvolutionChart {
     }
 
     init() {
+        const isMobile = window.innerWidth < 768;
         const datasets = [
             {
                 label: 'Total Income',
@@ -71,18 +72,30 @@ class HistoryEvolutionChart {
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'top',
+                        position: isMobile ? 'bottom' : 'top',
+                        align: 'start',
                         labels: {
-                            color: '#fff'
+                            color: '#fff',
+                            font: {
+                                size: isMobile ? 10 : 12
+                            },
+                            padding: isMobile ? 8 : 15,
+                            boxWidth: isMobile ? 30 : 40,
+                            usePointStyle: true
                         }
                     }
                 },
                 scales: {
                     y: {
+                        beginAtZero: true,
                         ticks: {
-                            color: '#fff'
+                            color: '#fff',
+                            font: {
+                                size: isMobile ? 10 : 12
+                            }
                         },
                         grid: {
                             color: '#ffffff22'
@@ -90,11 +103,30 @@ class HistoryEvolutionChart {
                     },
                     x: {
                         ticks: {
-                            color: '#fff'
+                            color: '#fff',
+                            font: {
+                                size: isMobile ? 10 : 12
+                            },
+                            maxRotation: isMobile ? 45 : 0,
+                            minRotation: isMobile ? 45 : 0
                         },
                         grid: {
                             color: '#ffffff22'
                         }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                },
+                elements: {
+                    point: {
+                        radius: 4,
+                        hoverRadius: 6
+                    },
+                    line: {
+                        borderWidth: 2
                     }
                 }
             }
