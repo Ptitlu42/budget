@@ -7,28 +7,28 @@
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-bold flex items-center">
                         <i class="fas fa-history mr-2 text-white"></i>
-                        <span class="text-white">Historique des mois précédents</span>
+                        <span class="text-white">Previous Months History</span>
                     </h1>
                     <div class="space-x-4">
                         <a href="{{ route('history.create') }}"
                             class="bg-white hover:bg-gray-100 text-dark font-bold py-2 px-4 rounded transition hover-scale">
                             <i class="fas fa-plus mr-2"></i>
-                            Ajouter un mois
+                            Add Month
                         </a>
                         <form action="{{ route('history.archive-current') }}" method="POST" class="inline">
                             @csrf
                             <button type="submit"
                                 class="bg-dev hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition hover-scale"
-                                onclick="return confirm('Êtes-vous sûr de vouloir archiver le mois en cours ? Les données non verrouillées seront supprimées.')">
+                                onclick="return confirm('Are you sure you want to archive the current month? Unlocked data will be deleted.')">
                                 <i class="fas fa-archive mr-2"></i>
-                                Archiver le mois en cours
+                                Archive Current Month
                             </button>
                         </form>
                     </div>
                 </div>
 
                 <div class="glass-effect p-6 mb-6">
-                    <h2 class="text-xl font-bold mb-4">Évolution des revenus et dépenses</h2>
+                    <h2 class="text-xl font-bold mb-4">Income and Expenses Evolution</h2>
                     <canvas id="evolutionChart"
                         data-months="{{ json_encode($history->map(function($month) { return $month->month_year->format('F Y'); })) }}"
                         data-incomes="{{ json_encode($history->pluck('total_incomes')) }}"
@@ -51,15 +51,15 @@
                                         <h2 class="text-xl font-bold mb-2">{{ $month->month_year->format('F Y') }}</h2>
                                         <div class="grid grid-cols-3 gap-4 text-sm">
                                             <div>
-                                                <p class="text-gray-400">Revenus totaux</p>
+                                                <p class="text-gray-400">Total Income</p>
                                                 <p class="text-white font-bold">{{ number_format($month->total_incomes, 2, ',', ' ') }} €</p>
                                             </div>
                                             <div>
-                                                <p class="text-gray-400">Dépenses totales</p>
+                                                <p class="text-gray-400">Total Expenses</p>
                                                 <p class="text-white font-bold">{{ number_format($month->total_expenses, 2, ',', ' ') }} €</p>
                                             </div>
                                             <div>
-                                                <p class="text-gray-400">Dépenses communes</p>
+                                                <p class="text-gray-400">Shared Expenses</p>
                                                 <p class="text-white font-bold">{{ number_format($month->total_shared_expenses, 2, ',', ' ') }} €</p>
                                             </div>
                                         </div>
@@ -73,7 +73,7 @@
                                             @csrf
                                             <button type="submit"
                                                 class="text-green-500 hover:text-green-700 transition"
-                                                onclick="return confirm('Êtes-vous sûr de vouloir désarchiver ce mois ? Il sera disponible pour modification.')">
+                                                onclick="return confirm('Are you sure you want to unarchive this month? It will be available for modification.')">
                                                 <i class="fas fa-box-open text-2xl"></i>
                                             </button>
                                         </form>
@@ -82,7 +82,7 @@
                                             @method('DELETE')
                                             <button type="submit"
                                                 class="text-red-500 hover:text-red-700 transition"
-                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce mois ? Cette action est irréversible.')">
+                                                onclick="return confirm('Are you sure you want to delete this month? This action cannot be undone.')">
                                                 <i class="fas fa-trash text-2xl"></i>
                                             </button>
                                         </form>
@@ -92,7 +92,7 @@
                         </div>
                     @empty
                         <div class="glass-effect p-6 text-center">
-                            <p class="text-gray-400">Aucun historique disponible</p>
+                            <p class="text-gray-400">No history available</p>
                         </div>
                     @endforelse
                 </div>

@@ -10,7 +10,7 @@
             <div class="bg-dark p-6">
                 <h3 class="text-white mb-2 flex items-center">
                     <i class="fas fa-euro-sign mr-2"></i>
-                    Revenus Totaux
+                    Total Income
                 </h3>
                 <p class="text-2xl font-bold text-white">
                     {{ number_format(App\Models\Income::sum('amount'), 2, ',', ' ') }} €
@@ -21,7 +21,7 @@
             <div class="bg-dark p-6">
                 <h3 class="text-white mb-2 flex items-center">
                     <i class="fas fa-wallet mr-2"></i>
-                    Dépenses Totales
+                    Total Expenses
                 </h3>
                 <p class="text-2xl font-bold text-white">
                     {{ number_format(App\Models\Expense::sum('amount'), 2, ',', ' ') }} €
@@ -32,7 +32,7 @@
             <div class="bg-dark p-6">
                 <h3 class="text-white mb-2 flex items-center">
                     <i class="fas fa-hand-holding-euro mr-2"></i>
-                    Dépenses Communes
+                    Shared Expenses
                 </h3>
                 <p class="text-2xl font-bold text-white">
                     {{ number_format(App\Models\Expense::where('is_shared', true)->sum('amount'), 2, ',', ' ') }} €
@@ -43,7 +43,7 @@
             <div class="bg-dark p-6">
                 <h3 class="text-white mb-2 flex items-center">
                     <i class="fas fa-user-tag mr-2"></i>
-                    Dépenses Individuelles
+                    Individual Expenses
                 </h3>
                 <p class="text-2xl font-bold text-white">
                     {{ number_format(App\Models\Expense::where('is_shared', false)->sum('amount'), 2, ',', ' ') }} €
@@ -57,7 +57,7 @@
             <div class="bg-dark p-6">
                 <h2 class="text-xl font-bold text-white mb-4 flex items-center">
                     <i class="fas fa-chart-bar mr-2"></i>
-                    Revenus par personne
+                    Income by Person
                 </h2>
                 @php
                     $users = DB::table('incomes')
@@ -102,7 +102,7 @@
             <div class="bg-dark p-6">
                 <h2 class="text-xl font-bold text-white mb-4 flex items-center">
                     <i class="fas fa-chart-pie mr-2"></i>
-                    Répartition des revenus
+                    Income Distribution
                 </h2>
                 <canvas id="revenusChart" class="w-full" data-users="{{ json_encode($users) }}"></canvas>
             </div>
@@ -114,7 +114,7 @@
             <div class="bg-dark p-6">
                 <h2 class="text-xl font-bold text-white mb-4 flex items-center">
                     <i class="fas fa-calculator mr-2"></i>
-                    Part des dépenses communes
+                    Shared Expenses Share
                 </h2>
                 @php
                     $totalIncomes = App\Models\Income::sum('amount');
@@ -159,7 +159,7 @@
             <div class="bg-dark p-6">
                 <h2 class="text-xl font-bold text-white mb-4 flex items-center">
                     <i class="fas fa-tags mr-2"></i>
-                    Dépenses par catégorie
+                    Expenses by Category
                 </h2>
                 <canvas id="depensesChart" class="w-full" data-expenses="{{ json_encode([
                     'rent' => App\Models\Expense::where('type', 'rent')->sum('amount'),

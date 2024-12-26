@@ -7,16 +7,16 @@
                 <h1 class="text-2xl font-bold flex items-center">
                     @if(Auth::user()->email === 'lucas.beyer@gmx.fr')
                         <i class="fas fa-code text-dev mr-2"></i>
-                        <span class="text-dev">Mes Revenus</span>
+                        <span class="text-dev">My Income</span>
                     @else
                         <i class="fas fa-lemon text-lemon mr-2"></i>
-                        <span class="text-lemon">Mes Revenus</span>
+                        <span class="text-lemon">My Income</span>
                     @endif
                 </h1>
                 <a href="{{ route('incomes.create') }}"
                     class="{{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'bg-dev hover:bg-purple-600' : 'bg-lemon hover:bg-yellow-400' }} text-dark font-bold py-2 px-4 rounded transition hover-scale">
                     <i class="fas fa-plus mr-2"></i>
-                    Ajouter un revenu
+                    Add Income
                 </a>
             </div>
 
@@ -27,7 +27,7 @@
                             <th class="py-2 px-4 text-left">Date</th>
                             <th class="py-2 px-4 text-left">Description</th>
                             <th class="py-2 px-4 text-left">Type</th>
-                            <th class="py-2 px-4 text-right">Montant</th>
+                            <th class="py-2 px-4 text-right">Amount</th>
                             <th class="py-2 px-4 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -41,19 +41,19 @@
                                         @case('salary')
                                             <span class="flex items-center">
                                                 <i class="fas fa-money-bill-wave mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Salaire
+                                                Salary
                                             </span>
                                             @break
                                         @case('aid')
                                             <span class="flex items-center">
                                                 <i class="fas fa-hand-holding-heart mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Aide
+                                                Aid
                                             </span>
                                             @break
                                         @default
                                             <span class="flex items-center">
                                                 <i class="fas fa-plus-circle mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Autre
+                                                Other
                                             </span>
                                     @endswitch
                                 </td>
@@ -70,13 +70,13 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-500 hover:text-red-700 transition"
-                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce revenu ?')">
+                                                onclick="return confirm('Are you sure you want to delete this income?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                         @if($income->locked)
                                             <span class="{{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}">
-                                                <i class="fas fa-lock" title="Ce revenu est verrouillé"></i>
+                                                <i class="fas fa-lock" title="This income is locked"></i>
                                             </span>
                                         @endif
                                     </div>

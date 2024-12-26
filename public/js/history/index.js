@@ -22,7 +22,7 @@ class HistoryEvolutionChart {
     init() {
         const datasets = [
             {
-                label: 'Revenus totaux',
+                label: 'Total Income',
                 data: this.data.incomes.reverse(),
                 borderColor: '#6366F1',
                 backgroundColor: '#6366F122',
@@ -30,7 +30,7 @@ class HistoryEvolutionChart {
                 tension: 0.4
             },
             {
-                label: "Revenus P'tit Lu",
+                label: "P'tit Lu Income",
                 data: this.data.individualIncomes.reverse().map(inc => inc["P'tit Lu"] || 0),
                 borderColor: '#FFD700',
                 backgroundColor: '#FFD70022',
@@ -38,7 +38,7 @@ class HistoryEvolutionChart {
                 tension: 0.4
             },
             {
-                label: 'Revenus Lemon',
+                label: 'Lemon Income',
                 data: this.data.individualIncomes.map(inc => inc['Lemon'] || 0),
                 borderColor: '#14B8A6',
                 backgroundColor: '#14B8A622',
@@ -46,7 +46,7 @@ class HistoryEvolutionChart {
                 tension: 0.4
             },
             {
-                label: 'Dépenses totales',
+                label: 'Total Expenses',
                 data: this.data.expenses.reverse(),
                 borderColor: '#F43F5E',
                 backgroundColor: '#F43F5E22',
@@ -54,7 +54,7 @@ class HistoryEvolutionChart {
                 tension: 0.4
             },
             {
-                label: 'Dépenses communes',
+                label: 'Shared Expenses',
                 data: this.data.sharedExpenses.reverse(),
                 borderColor: '#8B5CF6',
                 backgroundColor: '#8B5CF622',

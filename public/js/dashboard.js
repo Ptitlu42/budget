@@ -20,8 +20,8 @@ function initRevenusChart(users) {
         datasets: [{
             data: users.map(user => user.total_income),
             backgroundColor: [
-                '#6366F1',
-                '#FFD700'
+                '#FFD700',
+                '#6366F1'
             ]
         }]
     };
@@ -45,11 +45,11 @@ function initRevenusChart(users) {
 
 function initDepensesChart(expenses) {
     const labels = {
-        rent: 'Loyer',
-        insurance: 'Assurance',
-        utilities: 'Charges',
-        groceries: 'Courses',
-        other: 'Autre'
+        rent: 'Rent',
+        insurance: 'Insurance',
+        utilities: 'Utilities',
+        groceries: 'Groceries',
+        other: 'Other'
     };
 
     const depensesData = {

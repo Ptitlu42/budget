@@ -7,16 +7,16 @@
                 <h1 class="text-2xl font-bold flex items-center">
                     @if(Auth::user()->email === 'lucas.beyer@gmx.fr')
                         <i class="fas fa-code text-dev mr-2"></i>
-                        <span class="text-dev">Dépenses</span>
+                        <span class="text-dev">Expenses</span>
                     @else
                         <i class="fas fa-lemon text-lemon mr-2"></i>
-                        <span class="text-lemon">Dépenses</span>
+                        <span class="text-lemon">Expenses</span>
                     @endif
                 </h1>
                 <a href="{{ route('expenses.create') }}"
                     class="{{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'bg-dev hover:bg-purple-600' : 'bg-lemon hover:bg-yellow-400' }} text-dark font-bold py-2 px-4 rounded transition hover-scale">
                     <i class="fas fa-plus mr-2"></i>
-                    Ajouter une dépense
+                    Add Expense
                 </a>
             </div>
 
@@ -27,8 +27,8 @@
                             <th class="py-2 px-4 text-left">Date</th>
                             <th class="py-2 px-4 text-left">Description</th>
                             <th class="py-2 px-4 text-left">Type</th>
-                            <th class="py-2 px-4 text-right">Montant</th>
-                            <th class="py-2 px-4 text-center">Partagé</th>
+                            <th class="py-2 px-4 text-right">Amount</th>
+                            <th class="py-2 px-4 text-center">Shared</th>
                             <th class="py-2 px-4 text-center">Actions</th>
                         </tr>
                     </thead>
@@ -42,31 +42,31 @@
                                         @case('rent')
                                             <span class="flex items-center">
                                                 <i class="fas fa-home mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Loyer
+                                                Rent
                                             </span>
                                             @break
                                         @case('insurance')
                                             <span class="flex items-center">
                                                 <i class="fas fa-shield-alt mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Assurance
+                                                Insurance
                                             </span>
                                             @break
                                         @case('utilities')
                                             <span class="flex items-center">
                                                 <i class="fas fa-bolt mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Charges
+                                                Utilities
                                             </span>
                                             @break
                                         @case('groceries')
                                             <span class="flex items-center">
                                                 <i class="fas fa-shopping-cart mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Courses
+                                                Groceries
                                             </span>
                                             @break
                                         @default
                                             <span class="flex items-center">
                                                 <i class="fas fa-plus-circle mr-2 {{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}"></i>
-                                                Autre
+                                                Other
                                             </span>
                                     @endswitch
                                 </td>
@@ -90,13 +90,13 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-500 hover:text-red-700 transition"
-                                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette dépense ?')">
+                                                onclick="return confirm('Are you sure you want to delete this expense?')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
                                         @if($expense->locked)
                                             <span class="{{ Auth::user()->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}">
-                                                <i class="fas fa-lock" title="Cette dépense est verrouillée"></i>
+                                                <i class="fas fa-lock" title="This expense is locked"></i>
                                             </span>
                                         @endif
                                     </div>
