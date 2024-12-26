@@ -20,7 +20,7 @@ Budget management application designed to track couple's income and expenses.
 2. **Setup**
 ```bash
 # Clone the project
-git clone https://github.com/your-username/budget-mobile.git
+git clone https://github.com/your-username/budget.git
 cd budget-mobile
 
 # Install dependencies
