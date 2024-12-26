@@ -10,6 +10,4 @@ parameters:
         - '#Parameter \#1 \$callback of method [a-zA-Z0-9\\_]+::map\(\) contains unresolvable type#'
         - '#Method [a-zA-Z0-9\\_]+::render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View#'
         - '#Undefined variable: \$this#'
-    checkMissingIterableValueType: false
     treatPhpDocTypesAsCertain: false
-    checkGenericClassInNonGenericObjectType: false
