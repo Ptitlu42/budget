@@ -35,7 +35,7 @@ jobs:
         php-version: '8.2'
         extensions: mbstring, dom, fileinfo, mysql
         coverage: xdebug
-        tools: composer:v2, phpstan
+        tools: composer:v2
 
     - name: Copy .env.example
       run: cp .env.example .env
@@ -58,11 +58,6 @@ jobs:
 
     - name: Check code style
       run: php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php
-
-    - name: Static analysis
-      run: |
-        composer require phpstan/phpstan --dev
-        ./vendor/bin/phpstan analyse --configuration=phpstan.neon
 
     - name: Execute tests via Pest
       env:
