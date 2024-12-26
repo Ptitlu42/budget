@@ -65,6 +65,7 @@
                         ->select('users.name', 'users.email', DB::raw('SUM(amount) as total_income'))
                         ->groupBy('users.id', 'users.name', 'users.email')
                         ->get();
+                    $totalIncomes = App\Models\Income::sum('amount');
                 @endphp
                 <div class="space-y-4">
                     @foreach($users as $user)
@@ -79,9 +80,17 @@
                                         <span class="text-lemon">{{ $user->name }}</span>
                                     @endif
                                 </span>
-                                <span class="font-bold {{ $user->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}">
-                                    {{ number_format($user->total_income, 2, ',', ' ') }} €
-                                </span>
+                                <div class="flex items-center">
+                                    <span class="font-bold {{ $user->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }} mr-4">
+                                        {{ number_format($user->total_income, 2, ',', ' ') }} €
+                                    </span>
+                                    <span class="font-bold {{ $user->email === 'lucas.beyer@gmx.fr' ? 'text-dev' : 'text-lemon' }}">
+                                        ({{ number_format(($user->total_income / $totalIncomes) * 100, 1) }}%)
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div class="{{ $user->email === 'lucas.beyer@gmx.fr' ? 'bg-dev' : 'bg-lemon' }} progress-bar" data-width="{{ ($user->total_income / $totalIncomes) * 100 }}"></div>
                             </div>
                         </div>
                     @endforeach

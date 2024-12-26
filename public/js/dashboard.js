@@ -20,8 +20,8 @@ function initRevenusChart(users) {
         datasets: [{
             data: users.map(user => user.total_income),
             backgroundColor: [
-                '#6366F1', // Dev
-                '#EC4899'  // Citron
+                '#6366F1',
+                '#FFD700'
             ]
         }]
     };
@@ -57,11 +57,11 @@ function initDepensesChart(expenses) {
         datasets: [{
             data: Object.values(expenses),
             backgroundColor: [
-                '#6366F1', // Dev
-                '#EC4899', // Citron
-                '#14B8A6', // Vert
-                '#8B5CF6', // Violet
-                '#F43F5E'  // Rouge
+                '#6366F1',
+                '#FFD700',
+                '#14B8A6',
+                '#8B5CF6',
+                '#F43F5E'
             ]
         }]
     };

@@ -31,7 +31,7 @@ class IncomeController extends Controller
         $validated['user_id'] = Auth::id();
         Income::create($validated);
 
-        return redirect()->route('incomes.index')->with('success', 'Revenu ajouté avec succès');
+        return redirect()->route('incomes.index')->with('success', 'Income added successfully');
     }
 
     public function edit(Income $income)
@@ -50,12 +50,12 @@ class IncomeController extends Controller
 
         $income->update($validated);
 
-        return redirect()->route('incomes.index')->with('success', 'Revenu modifié avec succès');
+        return redirect()->route('incomes.index')->with('success', 'Income updated successfully');
     }
 
     public function destroy(Income $income)
     {
         $income->delete();
-        return redirect()->route('incomes.index')->with('success', 'Revenu supprimé avec succès');
+        return redirect()->route('incomes.index')->with('success', 'Income deleted successfully');
     }
 }

@@ -17,7 +17,7 @@
 .gradient-border {
     position: relative;
     border-radius: 0.5rem;
-    background: linear-gradient(45deg, #6366F1, #EC4899);
+    background: linear-gradient(45deg, #6366F1, #FFD700);
     padding: 1px;
 }
 

@@ -110,10 +110,10 @@ class HistoryController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('history.index')->with('success', 'Historique ajouté avec succès');
+            return redirect()->route('history.index')->with('success', 'History added successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'ajout de l\'historique')->withInput();
+            return redirect()->back()->with('error', 'An error occurred while adding history')->withInput();
         }
     }
 
@@ -181,14 +181,14 @@ class HistoryController extends Controller
         $currentMonth = Carbon::now()->startOfMonth();
 
         if (History::where('month_year', $currentMonth)->exists()) {
-            return redirect()->back()->with('error', 'L\'historique pour ce mois existe déjà');
+            return redirect()->back()->with('error', 'History for this month already exists');
         }
 
         try {
             $this->archiveMonth($currentMonth);
-            return redirect()->route('dashboard')->with('success', 'Le mois a été archivé avec succès');
+            return redirect()->route('dashboard')->with('success', 'Month archived successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de l\'archivage');
+            return redirect()->back()->with('error', 'An error occurred while archiving');
         }
     }
 
@@ -200,14 +200,13 @@ class HistoryController extends Controller
     public function destroy(History $history)
     {
         $history->delete();
-        return redirect()->route('history.index')->with('success', 'Mois supprimé avec succès');
+        return redirect()->route('history.index')->with('success', 'Month deleted successfully');
     }
 
     public function unarchive(History $history)
     {
         DB::beginTransaction();
         try {
-            // Créer les revenus
             foreach ($history->incomes_data as $income) {
                 Income::create([
                     'description' => $income['description'],
@@ -219,7 +218,6 @@ class HistoryController extends Controller
                 ]);
             }
 
-            // Créer les dépenses
             foreach ($history->expenses_data as $expense) {
                 Expense::create([
                     'description' => $expense['description'],
@@ -231,14 +229,13 @@ class HistoryController extends Controller
                 ]);
             }
 
-            // Supprimer l'historique
             $history->delete();
 
             DB::commit();
-            return redirect()->route('dashboard')->with('success', 'Le mois a été désarchivé avec succès');
+            return redirect()->route('dashboard')->with('success', 'Month unarchived successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Une erreur est survenue lors de la désarchivation');
+            return redirect()->back()->with('error', 'An error occurred while unarchiving');
         }
     }
 }

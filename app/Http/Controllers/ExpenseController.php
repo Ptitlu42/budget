@@ -13,7 +13,6 @@ class ExpenseController extends Controller
     {
         $expenses = Expense::orderBy('date', 'desc')->get();
 
-        // Calculer les parts de chacun
         $totalIncomes = Income::sum('amount');
         $shares = DB::table('incomes')
             ->join('users', 'incomes.user_id', '=', 'users.id')
@@ -45,7 +44,7 @@ class ExpenseController extends Controller
 
         Expense::create($validated);
 
-        return redirect()->route('expenses.index')->with('success', 'Dépense ajoutée avec succès');
+        return redirect()->route('expenses.index')->with('success', 'Expense added successfully');
     }
 
     public function edit(Expense $expense)
@@ -65,12 +64,12 @@ class ExpenseController extends Controller
 
         $expense->update($validated);
 
-        return redirect()->route('expenses.index')->with('success', 'Dépense modifiée avec succès');
+        return redirect()->route('expenses.index')->with('success', 'Expense updated successfully');
     }
 
     public function destroy(Expense $expense)
     {
         $expense->delete();
-        return redirect()->route('expenses.index')->with('success', 'Dépense supprimée avec succès');
+        return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully');
     }
 }

@@ -32,8 +32,8 @@ class HistoryEvolutionChart {
             {
                 label: "Revenus P'tit Lu",
                 data: this.data.individualIncomes.reverse().map(inc => inc["P'tit Lu"] || 0),
-                borderColor: '#EC4899',
-                backgroundColor: '#EC489922',
+                borderColor: '#FFD700',
+                backgroundColor: '#FFD70022',
                 fill: true,
                 tension: 0.4
             },
