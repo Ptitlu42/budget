@@ -1,0 +1,15 @@
+parameters:
+    level: 5
+    paths:
+        - app
+        - tests
+    ignoreErrors:
+        - '#Call to an undefined static method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)#'
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+::\$[a-zA-Z0-9\\_]+#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+\(\)#'
+        - '#Parameter \#1 \$callback of method [a-zA-Z0-9\\_]+::map\(\) contains unresolvable type#'
+        - '#Method [a-zA-Z0-9\\_]+::render\(\) should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View#'
+        - '#Undefined variable: \$this#'
+    checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false
+    checkGenericClassInNonGenericObjectType: false
