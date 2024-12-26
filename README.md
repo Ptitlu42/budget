@@ -32,7 +32,7 @@ cp .env.example .env
 php artisan key:generate
 
 # Run migrations
-php artisan migrate
+php artisan migrate --seed
 
 # Build assets
 npm run dev
