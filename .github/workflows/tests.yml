@@ -35,13 +35,15 @@ jobs:
         php-version: '8.2'
         extensions: mbstring, dom, fileinfo, mysql
         coverage: xdebug
-        tools: composer:v2, php-cs-fixer, phpstan
+        tools: composer:v2, phpstan
 
     - name: Copy .env.example
       run: cp .env.example .env
 
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: |
+        composer require friendsofphp/php-cs-fixer --dev
+        composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
     - name: Generate key
       run: php artisan key:generate
@@ -55,9 +57,7 @@ jobs:
         touch database/database.sqlite
 
     - name: Check code style
-      run: |
-        composer require friendsofphp/php-cs-fixer --dev
-        ./vendor/bin/php-cs-fixer fix --dry-run --diff
+      run: php vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php
 
     - name: Static analysis
       run: |
