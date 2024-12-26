@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\BankAccount;
 use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
 
 class NordigenService
 {
@@ -35,8 +33,9 @@ class NordigenService
             $data = $response->json();
             $this->token = [
                 'access' => $data['access'],
-                'expires_at' => now()->addSeconds($data['access_expires'])
+                'expires_at' => now()->addSeconds($data['access_expires']),
             ];
+
             return $this->token['access'];
         }
 
@@ -47,7 +46,7 @@ class NordigenService
     {
         $response = Http::withToken($this->getToken())
             ->get($this->baseUrl . '/institutions/', [
-                'country' => $country
+                'country' => $country,
             ]);
 
         if ($response->successful()) {
@@ -63,7 +62,7 @@ class NordigenService
             ->post($this->baseUrl . '/requisitions/', [
                 'redirect' => $redirectUrl,
                 'institution_id' => $bankId,
-                'reference' => uniqid()
+                'reference' => uniqid(),
             ]);
 
         if ($response->successful()) {
@@ -114,7 +113,7 @@ class NordigenService
         $response = Http::withToken($this->getToken())
             ->get($this->baseUrl . "/accounts/{$accountId}/transactions/", [
                 'date_from' => $dateFrom ? $dateFrom->format('Y-m-d') : null,
-                'date_to' => $dateTo ? $dateTo->format('Y-m-d') : null
+                'date_to' => $dateTo ? $dateTo->format('Y-m-d') : null,
             ]);
 
         if ($response->successful()) {

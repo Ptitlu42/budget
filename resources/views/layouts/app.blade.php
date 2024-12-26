@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="en" class="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,12 +41,12 @@
                 @endif
             </a>
             <div class="space-x-6">
-                <a href="{{ route('incomes.index') }}" class="text-white hover:text-dev transition">Revenus</a>
-                <a href="{{ route('expenses.index') }}" class="text-white hover:text-lemon transition">Dépenses</a>
-                <a href="{{ route('history.index') }}" class="text-white hover:text-gray-300 transition">Historique</a>
+                <a href="{{ route('incomes.index') }}" class="text-white hover:text-dev transition">Incomes</a>
+                <a href="{{ route('expenses.index') }}" class="text-white hover:text-lemon transition">Expenses</a>
+                <a href="{{ route('history.index') }}" class="text-white hover:text-gray-300 transition">History</a>
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
-                    <button type="submit" class="text-gray-300 hover:text-white transition">Déconnexion</button>
+                    <button type="submit" class="text-gray-300 hover:text-white transition">Logout</button>
                 </form>
             </div>
         </div>

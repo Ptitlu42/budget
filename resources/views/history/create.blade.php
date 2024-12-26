@@ -6,12 +6,12 @@
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold flex items-center">
                     <i class="fas fa-plus-circle mr-2 text-white"></i>
-                    <span class="text-white">Ajouter un mois à l'historique</span>
+                    <span class="text-white">Add Month to History</span>
                 </h1>
                 <a href="{{ route('history.index') }}"
                     class="text-white hover:text-gray-300 transition">
                     <i class="fas fa-arrow-left mr-2"></i>
-                    Retour à l'historique
+                    Back to History
                 </a>
             </div>
 
@@ -19,13 +19,13 @@
                 @csrf
 
                 <div>
-                    <label for="month_year" class="block text-white mb-2">Mois</label>
+                    <label for="month_year" class="block text-white mb-2">Month</label>
                     <input type="month" name="month_year" id="month_year" required
                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-xl font-bold text-white">Revenus</h2>
+                    <h2 class="text-xl font-bold text-white">Incomes</h2>
                     <div id="incomes-container">
                         <div class="income-entry glass-effect p-4 rounded space-y-4">
                             <div class="grid grid-cols-2 gap-4">
@@ -35,48 +35,34 @@
                                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
                                 </div>
                                 <div>
-                                    <label class="block text-white mb-2">Montant</label>
+                                    <label class="block text-white mb-2">Amount</label>
                                     <input type="number" step="0.01" name="incomes[0][amount]" required
                                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-4">
                                 <div>
                                     <label class="block text-white mb-2">Type</label>
-                                    <input type="text" name="incomes[0][type]" required list="income-types"
+                                    <select name="incomes[0][type]" required
                                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
-                                    <datalist id="income-types">
-                                        @foreach(\App\Models\CustomType::getIncomeTypes() as $type)
-                                            <option value="{{ ucfirst($type) }}">
-                                        @endforeach
-                                    </datalist>
-                                </div>
-                                <div>
-                                    <label class="block text-white mb-2">Date</label>
-                                    <input type="date" name="incomes[0][date]" required
-                                        class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
-                                </div>
-                                <div>
-                                    <label class="block text-white mb-2">Utilisateur</label>
-                                    <select name="incomes[0][user_id]" required
-                                        class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
-                                        @foreach(\App\Models\User::all() as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                        @endforeach
+                                        <option value="salary">Salary</option>
+                                        <option value="aid">Aid</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </div>
                             </div>
+                            <button type="button" class="remove-income text-red-500 hover:text-red-400 transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
                     <button type="button" id="add-income"
                         class="bg-dev hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition hover-scale">
                         <i class="fas fa-plus mr-2"></i>
-                        Ajouter un revenu
+                        Add Income
                     </button>
                 </div>
 
                 <div class="space-y-4">
-                    <h2 class="text-xl font-bold text-white">Dépenses</h2>
+                    <h2 class="text-xl font-bold text-white">Expenses</h2>
                     <div id="expenses-container">
                         <div class="expense-entry glass-effect p-4 rounded space-y-4">
                             <div class="grid grid-cols-2 gap-4">
@@ -86,52 +72,49 @@
                                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
                                 </div>
                                 <div>
-                                    <label class="block text-white mb-2">Montant</label>
+                                    <label class="block text-white mb-2">Amount</label>
                                     <input type="number" step="0.01" name="expenses[0][amount]" required
                                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-white mb-2">Type</label>
-                                    <input type="text" name="expenses[0][type]" required list="expense-types"
+                                    <select name="expenses[0][type]" required
                                         class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
-                                    <datalist id="expense-types">
-                                        @foreach(\App\Models\CustomType::getExpenseTypes() as $type)
-                                            <option value="{{ ucfirst($type) }}">
-                                        @endforeach
-                                    </datalist>
+                                        <option value="rent">Rent</option>
+                                        <option value="insurance">Insurance</option>
+                                        <option value="utilities">Utilities</option>
+                                        <option value="groceries">Groceries</option>
+                                        <option value="other">Other</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <label class="block text-white mb-2">Date</label>
-                                    <input type="date" name="expenses[0][date]" required
-                                        class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev">
+                                    <label class="flex items-center space-x-2">
+                                        <input type="checkbox" name="expenses[0][is_shared]" value="1" checked
+                                            class="form-checkbox bg-darker border border-gray-700 text-dev focus:ring-dev">
+                                        <span class="text-white">Shared expense</span>
+                                    </label>
                                 </div>
                             </div>
-                            <div>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" name="expenses[0][is_shared]" value="1"
-                                        class="form-checkbox bg-darker border border-gray-700 text-dev focus:ring-dev">
-                                    <span class="text-white">Dépense partagée</span>
-                                </label>
-                            </div>
+                            <button type="button" class="remove-expense text-red-500 hover:text-red-400 transition">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
                     </div>
                     <button type="button" id="add-expense"
                         class="bg-dev hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition hover-scale">
                         <i class="fas fa-plus mr-2"></i>
-                        Ajouter une dépense
+                        Add Expense
                     </button>
                 </div>
 
                 <div class="flex justify-end space-x-4">
                     <a href="{{ route('history.index') }}"
                         class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition hover-scale">
-                        Annuler
+                        Cancel
                     </a>
                     <button type="submit"
                         class="bg-dev hover:bg-purple-600 text-white font-bold py-2 px-4 rounded transition hover-scale">
-                        Enregistrer
+                        Save
                     </button>
                 </div>
             </form>

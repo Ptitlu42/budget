@@ -12,6 +12,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "friendsofphp/php-cs-fixer": "^3.65",
         "laravel/breeze": "*",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
@@ -19,7 +20,8 @@
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
         "pestphp/pest": "^3.7",
-        "pestphp/pest-plugin-laravel": "^3.0"
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "phpunit/phpunit": "^11.5"
     },
     "autoload": {
         "psr-4": {

@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class History extends Model
 {
+    use HasFactory;
+
     protected $table = 'history';
 
     protected $fillable = [
@@ -15,16 +18,16 @@ class History extends Model
         'total_incomes',
         'total_expenses',
         'total_shared_expenses',
-        'shares_data'
+        'shares_data',
     ];
 
     protected $casts = [
         'month_year' => 'date',
         'incomes_data' => 'array',
         'expenses_data' => 'array',
-        'shares_data' => 'array',
         'total_incomes' => 'decimal:2',
         'total_expenses' => 'decimal:2',
-        'total_shared_expenses' => 'decimal:2'
+        'total_shared_expenses' => 'decimal:2',
+        'shares_data' => 'array',
     ];
 }

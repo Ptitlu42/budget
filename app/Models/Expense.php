@@ -15,13 +15,18 @@ class Expense extends Model
         'type',
         'date',
         'is_shared',
-        'locked'
+        'locked',
     ];
 
     protected $casts = [
-        'date' => 'date',
         'amount' => 'decimal:2',
         'is_shared' => 'boolean',
-        'locked' => 'boolean'
+        'locked' => 'boolean',
+        'date' => 'date',
+    ];
+
+    protected $attributes = [
+        'is_shared' => true,
+        'locked' => false,
     ];
 }

@@ -21,6 +21,7 @@ class ExpenseController extends Controller
             ->get()
             ->map(function ($user) use ($totalIncomes) {
                 $user->share_percentage = ($totalIncomes > 0) ? ($user->total_income / $totalIncomes) * 100 : 0;
+
                 return $user;
             });
 
@@ -37,9 +38,9 @@ class ExpenseController extends Controller
         $validated = $request->validate([
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
-            'type' => 'required|in:rent,insurance,utilities,groceries,other',
+            'type' => 'required|in:rent,utilities,insurance,groceries,other',
             'date' => 'required|date',
-            'is_shared' => 'boolean'
+            'is_shared' => 'boolean',
         ]);
 
         Expense::create($validated);
@@ -49,17 +50,25 @@ class ExpenseController extends Controller
 
     public function edit(Expense $expense)
     {
+        if ($expense->locked) {
+            return redirect()->route('expenses.index')->with('error', 'Cannot edit a locked expense');
+        }
+
         return view('expenses.edit', compact('expense'));
     }
 
     public function update(Request $request, Expense $expense)
     {
+        if ($expense->locked) {
+            return response()->json(['message' => 'Cannot modify a locked expense'], 403);
+        }
+
         $validated = $request->validate([
             'description' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
-            'type' => 'required|in:rent,insurance,utilities,groceries,other',
+            'type' => 'required|in:rent,utilities,insurance,groceries,other',
             'date' => 'required|date',
-            'is_shared' => 'boolean'
+            'is_shared' => 'boolean',
         ]);
 
         $expense->update($validated);
@@ -69,7 +78,12 @@ class ExpenseController extends Controller
 
     public function destroy(Expense $expense)
     {
+        if ($expense->locked) {
+            return response()->json(['message' => 'Cannot delete a locked expense'], 403);
+        }
+
         $expense->delete();
+
         return redirect()->route('expenses.index')->with('success', 'Expense deleted successfully');
     }
 }
