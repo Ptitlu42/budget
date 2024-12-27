@@ -67,4 +67,4 @@ php artisan archive:last-month
 
 ## 📝 License
 
-MIT License.
+[WTFPL License.](http://www.wtfpl.net/)
