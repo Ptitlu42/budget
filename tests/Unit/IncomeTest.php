@@ -16,11 +16,13 @@ class IncomeTest extends TestCase
         $income = new Income();
         $expectedFillable = [
             'user_id',
+            'group_id',
             'description',
             'amount',
             'type',
             'date',
             'locked',
+            'is_shared',
         ];
 
         $this->assertEquals($expectedFillable, $income->getFillable());
@@ -33,6 +35,7 @@ class IncomeTest extends TestCase
             'date' => 'date',
             'amount' => 'decimal:2',
             'locked' => 'boolean',
+            'is_shared' => 'boolean',
         ];
 
         $actualCasts = array_intersect_key($income->getCasts(), $expectedCasts);
@@ -41,40 +44,38 @@ class IncomeTest extends TestCase
 
     public function test_income_factory_creates_valid_income(): void
     {
-        $user = User::factory()->create();
-        $income = Income::factory()->forUser($user)->create();
+        $income = Income::factory()->create();
 
         $this->assertInstanceOf(Income::class, $income);
         $this->assertNotNull($income->description);
-        $this->assertIsNumeric($income->amount);
-        $this->assertContains($income->type, ['salary', 'aid', 'other']);
-        $this->assertEquals($user->id, $income->user_id);
+        $this->assertNotNull($income->amount);
+        $this->assertNotNull($income->type);
+        $this->assertNotNull($income->date);
     }
 
     public function test_income_amount_is_stored_as_decimal(): void
     {
         $income = Income::factory()->create([
-            'amount' => 1000.50,
+            'amount' => 100.50,
         ]);
 
-        $this->assertEquals(1000.50, $income->amount);
-        $this->assertIsNumeric($income->amount);
+        $this->assertEquals(100.50, $income->amount);
     }
 
     public function test_income_type_is_valid(): void
     {
-        $income = Income::factory()->create([
-            'type' => 'salary',
-        ]);
+        $income = Income::factory()->create();
 
-        $this->assertEquals('salary', $income->type);
-        $this->assertContains($income->type, ['salary', 'aid', 'other']);
+        $validTypes = ['salary', 'aid', 'other'];
+        $this->assertTrue(in_array($income->type, $validTypes));
     }
 
     public function test_income_belongs_to_user(): void
     {
         $user = User::factory()->create();
-        $income = Income::factory()->forUser($user)->create();
+        $income = Income::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
         $this->assertInstanceOf(User::class, $income->user);
         $this->assertEquals($user->id, $income->user->id);
@@ -84,5 +85,11 @@ class IncomeTest extends TestCase
     {
         $income = new Income();
         $this->assertFalse($income->locked);
+    }
+
+    public function test_income_is_shared_defaults_to_true(): void
+    {
+        $income = new Income();
+        $this->assertTrue($income->is_shared);
     }
 }

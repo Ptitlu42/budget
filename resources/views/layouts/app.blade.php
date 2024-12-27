@@ -44,6 +44,7 @@
                 <a href="{{ route('incomes.index') }}" class="text-white hover:text-dev transition">Incomes</a>
                 <a href="{{ route('expenses.index') }}" class="text-white hover:text-lemon transition">Expenses</a>
                 <a href="{{ route('history.index') }}" class="text-white hover:text-gray-300 transition">History</a>
+                <a href="{{ route('groups.index') }}" class="text-white hover:text-gray-300 transition">Groups</a>
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit" class="text-gray-300 hover:text-white transition">Logout</button>
