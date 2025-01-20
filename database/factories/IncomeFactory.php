@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Income;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class IncomeFactory extends Factory
@@ -14,11 +14,11 @@ class IncomeFactory extends Factory
     public function definition(): array
     {
         return [
-            'description' => $this->faker->words(3, true),
-            'amount' => $this->faker->randomFloat(2, 100, 2000),
-            'type' => $this->faker->randomElement(['salary', 'aid', 'other']),
-            'date' => Carbon::now(),
-            'user_id' => User::factory(),
+            'amount' => $this->faker->randomFloat(2, 1000, 5000),
+            'type' => 'salary',
+            'description' => $this->faker->sentence(),
+            'date' => $this->faker->date(),
+            'is_shared' => true,
             'locked' => false,
         ];
     }
@@ -37,6 +37,7 @@ class IncomeFactory extends Factory
         return $this->state(function (array $attributes) use ($user) {
             return [
                 'user_id' => $user->id,
+                'group_id' => $user->group_id,
             ];
         });
     }

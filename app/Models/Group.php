@@ -31,4 +31,9 @@ class Group extends Model
     {
         return $this->hasMany(Expense::class);
     }
+
+    public function histories(): HasMany
+    {
+        return $this->hasMany(History::class);
+    }
 }

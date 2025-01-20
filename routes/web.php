@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('incomes', IncomeController::class);
     Route::resource('expenses', ExpenseController::class);
     Route::resource('history', HistoryController::class);
-    Route::post('history/archive-current', [HistoryController::class, 'archiveCurrentMonth'])->name('history.archive-current');
+    Route::post('/history/archive-current', [HistoryController::class, 'archiveMonth'])->name('history.archive-current');
     Route::post('custom-types', [CustomTypeController::class, 'store'])->name('custom-types.store');
 
     Route::get('groups', [GroupController::class, 'index'])->name('groups.index');

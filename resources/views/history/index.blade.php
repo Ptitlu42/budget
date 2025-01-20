@@ -32,12 +32,12 @@
                     <div class="h-[400px] md:h-[500px] lg:h-[600px]">
                         <canvas id="evolutionChart"
                             data-months="{{ json_encode($history->map(function($month) { return $month->month_year->format('F Y'); })) }}"
-                            data-incomes="{{ json_encode($history->pluck('total_incomes')) }}"
-                            data-expenses="{{ json_encode($history->pluck('total_expenses')) }}"
-                            data-shared-expenses="{{ json_encode($history->pluck('total_shared_expenses')) }}"
+                            data-incomes="{{ json_encode($history->map(function($month) { return collect($month->data['incomes'])->sum('amount'); })) }}"
+                            data-expenses="{{ json_encode($history->map(function($month) { return collect($month->data['expenses'])->sum('amount'); })) }}"
+                            data-shared-expenses="{{ json_encode($history->map(function($month) { return collect($month->data['expenses'])->where('is_shared', true)->sum('amount'); })) }}"
                             data-individual-incomes="{{ json_encode($history->map(function($month) {
-                                return collect($month->shares_data)->mapWithKeys(function($share) {
-                                    return [$share['name'] => $share['total_income']];
+                                return collect($month->data['incomes'])->groupBy('user_id')->map(function($incomes) {
+                                    return $incomes->sum('amount');
                                 });
                             })) }}">
                         </canvas>
@@ -54,15 +54,15 @@
                                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                                             <div>
                                                 <p class="text-gray-400">Total Income</p>
-                                                <p class="text-white font-bold">{{ number_format($month->total_incomes, 2, ',', ' ') }} €</p>
+                                                <p class="text-white font-bold">{{ number_format(collect($month->data['incomes'])->sum('amount'), 2, ',', ' ') }} €</p>
                                             </div>
                                             <div>
                                                 <p class="text-gray-400">Total Expenses</p>
-                                                <p class="text-white font-bold">{{ number_format($month->total_expenses, 2, ',', ' ') }} €</p>
+                                                <p class="text-white font-bold">{{ number_format(collect($month->data['expenses'])->sum('amount'), 2, ',', ' ') }} €</p>
                                             </div>
                                             <div>
                                                 <p class="text-gray-400">Shared Expenses</p>
-                                                <p class="text-white font-bold">{{ number_format($month->total_shared_expenses, 2, ',', ' ') }} €</p>
+                                                <p class="text-white font-bold">{{ number_format(collect($month->data['expenses'])->where('is_shared', true)->sum('amount'), 2, ',', ' ') }} €</p>
                                             </div>
                                         </div>
                                     </div>

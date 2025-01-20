@@ -19,15 +19,15 @@
                 <div class="grid grid-cols-3 gap-4 mb-6">
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-2">Revenus totaux</h3>
-                        <p class="text-2xl font-bold">{{ number_format($history->total_incomes, 2, ',', ' ') }} €</p>
+                        <p class="text-2xl font-bold">{{ number_format(collect($history->data['incomes'])->sum('amount'), 2, ',', ' ') }} €</p>
                     </div>
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-2">Dépenses totales</h3>
-                        <p class="text-2xl font-bold">{{ number_format($history->total_expenses, 2, ',', ' ') }} €</p>
+                        <p class="text-2xl font-bold">{{ number_format(collect($history->data['expenses'])->sum('amount'), 2, ',', ' ') }} €</p>
                     </div>
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-2">Dépenses communes</h3>
-                        <p class="text-2xl font-bold">{{ number_format($history->total_shared_expenses, 2, ',', ' ') }} €</p>
+                        <p class="text-2xl font-bold">{{ number_format(collect($history->data['expenses'])->where('is_shared', true)->sum('amount'), 2, ',', ' ') }} €</p>
                     </div>
                 </div>
 
@@ -35,9 +35,17 @@
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Répartition des revenus</h3>
                         <canvas id="incomesChart"
-                            data-shares="{{ json_encode($history->shares_data) }}"
-                            data-total-expenses="{{ $history->total_expenses }}"
-                            data-total-shared-expenses="{{ $history->total_shared_expenses }}">
+                            data-shares="{{ json_encode(collect($history->data['incomes'])->groupBy('user_id')->map(function($incomes) {
+                                $user = \App\Models\User::find($incomes->first()['user_id']);
+                                return [
+                                    'name' => $user->name,
+                                    'email' => $user->email,
+                                    'total_income' => $incomes->sum('amount'),
+                                    'share_percentage' => (collect($history->data['incomes'])->sum('amount') > 0) ? ($incomes->sum('amount') / collect($history->data['incomes'])->sum('amount') * 100) : 0,
+                                ];
+                            })->values()) }}"
+                            data-total-expenses="{{ collect($history->data['expenses'])->sum('amount') }}"
+                            data-total-shared-expenses="{{ collect($history->data['expenses'])->where('is_shared', true)->sum('amount') }}">
                         </canvas>
                     </div>
                     <div class="glass-effect p-4 rounded">
@@ -50,7 +58,7 @@
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Détail des revenus</h3>
                         <div class="space-y-4">
-                            @foreach($history->incomes_data as $income)
+                            @foreach($history->data['incomes'] as $income)
                                 <div class="border-b border-gray-700 pb-2">
                                     <div class="flex justify-between items-center">
                                         <div>
@@ -69,7 +77,7 @@
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Détail des dépenses</h3>
                         <div class="space-y-4">
-                            @foreach($history->expenses_data as $expense)
+                            @foreach($history->data['expenses'] as $expense)
                                 <div class="border-b border-gray-700 pb-2">
                                     <div class="flex justify-between items-center">
                                         <div>

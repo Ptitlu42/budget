@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class History extends Model
 {
@@ -12,22 +13,24 @@ class History extends Model
     protected $table = 'history';
 
     protected $fillable = [
+        'user_id',
+        'group_id',
         'month_year',
-        'incomes_data',
-        'expenses_data',
-        'total_incomes',
-        'total_expenses',
-        'total_shared_expenses',
-        'shares_data',
+        'data'
     ];
 
     protected $casts = [
         'month_year' => 'date',
-        'incomes_data' => 'array',
-        'expenses_data' => 'array',
-        'total_incomes' => 'decimal:2',
-        'total_expenses' => 'decimal:2',
-        'total_shared_expenses' => 'decimal:2',
-        'shares_data' => 'array',
+        'data' => 'array'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
 }
