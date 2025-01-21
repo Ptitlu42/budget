@@ -22,7 +22,7 @@ class HistoryController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $history = History::where('user_id', $user->id)
+        $history = History::where('group_id', $user->group_id)
             ->orderBy('month_year', 'desc')
             ->get();
 
@@ -44,10 +44,17 @@ class HistoryController extends Controller
         ]);
 
         $date = Carbon::createFromFormat('Y-m', $validated['month_year'])->startOfMonth();
+        $user = Auth::user();
+
+        if (History::where('group_id', $user->group_id)
+            ->where('month_year', $date)
+            ->exists()) {
+            return redirect()->back()->withErrors(['month_year' => 'Un historique existe déjà pour ce mois dans votre groupe.']);
+        }
 
         $history = History::create([
-            'user_id' => Auth::id(),
-            'group_id' => Auth::user()->group_id,
+            'user_id' => $user->id,
+            'group_id' => $user->group_id,
             'month_year' => $date,
             'data' => $validated['data']
         ]);
@@ -136,22 +143,35 @@ class HistoryController extends Controller
 
     public function show(History $history)
     {
+        if ($history->group_id !== Auth::user()->group_id) {
+            abort(403, 'Vous n\'avez pas accès à cet historique.');
+        }
         return view('history.show', compact('history'));
     }
 
     public function edit(History $history)
     {
+        if ($history->group_id !== Auth::user()->group_id) {
+            abort(403, 'Vous n\'avez pas accès à cet historique.');
+        }
         return view('history.edit', compact('history'));
     }
 
     public function destroy(History $history)
     {
+        if ($history->group_id !== Auth::user()->group_id) {
+            abort(403, 'Vous n\'avez pas accès à cet historique.');
+        }
         $history->delete();
         return redirect('/history');
     }
 
     public function update(Request $request, History $history)
     {
+        if ($history->group_id !== Auth::user()->group_id) {
+            abort(403, 'Vous n\'avez pas accès à cet historique.');
+        }
+
         $validated = $request->validate([
             'data' => 'required|array',
             'data.incomes' => 'required|array',
