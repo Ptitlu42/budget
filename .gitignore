@@ -21,3 +21,4 @@ yarn-error.log
 *.swo
 .history/
 save.sql
+save_format.sql
