@@ -35,7 +35,7 @@
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Répartition des revenus</h3>
                         <canvas id="incomesChart"
-                            data-shares="{{ json_encode(collect($history->data['incomes'])->groupBy('user_id')->map(function($incomes) {
+                            data-shares="{{ json_encode(collect($history->data['incomes'])->groupBy('user_id')->map(function($incomes) use ($history) {
                                 $user = \App\Models\User::find($incomes->first()['user_id']);
                                 return [
                                     'name' => $user->name,
@@ -50,7 +50,10 @@
                     </div>
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Répartition des dépenses</h3>
-                        <canvas id="expensesChart"></canvas>
+                        <canvas id="expensesChart"
+                            data-total-expenses="{{ collect($history->data['expenses'])->sum('amount') }}"
+                            data-total-shared-expenses="{{ collect($history->data['expenses'])->where('is_shared', true)->sum('amount') }}">
+                        </canvas>
                     </div>
                 </div>
 

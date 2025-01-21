@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!incomesChart || !expensesChart) return;
 
     const data = {
-        shares: JSON.parse(incomesChart.dataset.shares),
-        total_expenses: parseFloat(incomesChart.dataset.totalExpenses),
-        total_shared_expenses: parseFloat(incomesChart.dataset.totalSharedExpenses)
+        shares: JSON.parse(incomesChart.dataset.shares || '[]'),
+        total_expenses: parseFloat(expensesChart.dataset.totalExpenses || 0),
+        total_shared_expenses: parseFloat(expensesChart.dataset.totalSharedExpenses || 0)
     };
 
     new HistoryCharts(data);
@@ -25,6 +25,14 @@ class HistoryCharts {
                         labels: {
                             color: '#fff'
                         }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.raw;
+                                return `${context.label}: ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value)}`;
+                            }
+                        }
                     }
                 }
             }
@@ -39,11 +47,13 @@ class HistoryCharts {
     }
 
     createIncomesChart() {
+        if (!this.data.shares.length) return;
+
         const incomesData = {
             labels: this.data.shares.map(share => share.name),
             datasets: [{
                 data: this.data.shares.map(share => share.total_income),
-                backgroundColor: ['#6366F1', '#EC4899'],
+                backgroundColor: ['#6366F1', '#EC4899', '#10B981', '#F59E0B', '#EF4444'],
                 borderWidth: 0
             }]
         };
@@ -55,6 +65,8 @@ class HistoryCharts {
     }
 
     createExpensesChart() {
+        if (!this.data.total_expenses) return;
+
         const expensesData = {
             labels: ['Dépenses communes', 'Dépenses individuelles'],
             datasets: [{
