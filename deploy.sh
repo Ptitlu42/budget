@@ -18,7 +18,8 @@ cp database/database.sqlite database/database.sqlite.backup
 echo "🔄 Migrating database..."
 php artisan migrate:fresh
 echo "📥 Restoring data..."
-cat save.sql | sqlite3 database/database.sqlite
+# Filter out CREATE TABLE, CREATE INDEX and similar statements before importing
+grep -v -E "^CREATE |^INSERT INTO migrations|^INSERT INTO custom_types|^CREATE INDEX|^CREATE UNIQUE" save.sql | sqlite3 database/database.sqlite
 
 # Clear caches
 echo "🧹 Clearing caches..."
