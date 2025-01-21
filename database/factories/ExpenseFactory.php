@@ -3,7 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Expense;
-use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Group;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ExpenseFactory extends Factory
@@ -13,26 +14,35 @@ class ExpenseFactory extends Factory
     public function definition(): array
     {
         return [
-            'description' => $this->faker->words(3, true),
             'amount' => $this->faker->randomFloat(2, 10, 1000),
-            'type' => $this->faker->randomElement(['rent', 'utilities', 'insurance', 'food', 'other']),
-            'date' => Carbon::now(),
-            'is_shared' => $this->faker->boolean(80),
+            'type' => 'rent',
+            'description' => $this->faker->sentence(),
+            'date' => $this->faker->date(),
+            'is_shared' => true,
             'locked' => false,
         ];
     }
 
-    public function locked(): self
+    public function forUser(User $user): self
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($user) {
             return [
-                'locked' => true,
-                'type' => 'utilities',
+                'user_id' => $user->id,
+                'group_id' => $user->group_id,
             ];
         });
     }
 
-    public function shared(): self
+    public function locked()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'locked' => true,
+            ];
+        });
+    }
+
+    public function shared()
     {
         return $this->state(function (array $attributes) {
             return [
@@ -41,7 +51,7 @@ class ExpenseFactory extends Factory
         });
     }
 
-    public function notShared(): self
+    public function notShared()
     {
         return $this->state(function (array $attributes) {
             return [

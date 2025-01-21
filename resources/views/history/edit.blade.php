@@ -36,7 +36,7 @@
                             </button>
                         </div>
                         <div class="space-y-4" id="incomes-container">
-                            @foreach($history->incomes_data as $index => $income)
+                            @foreach($history->data['incomes'] as $index => $income)
                                 <div class="gradient-border income-entry">
                                     <div class="bg-dark p-4">
                                         <div class="flex justify-between mb-4">
@@ -92,7 +92,7 @@
                             </button>
                         </div>
                         <div class="space-y-4" id="expenses-container">
-                            @foreach($history->expenses_data as $index => $expense)
+                            @foreach($history->data['expenses'] as $index => $expense)
                                 <div class="gradient-border expense-entry">
                                     <div class="bg-dark p-4">
                                         <div class="flex justify-between mb-4">

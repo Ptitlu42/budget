@@ -25,8 +25,9 @@
                     <div>
                         <label for="email" class="block text-white mb-2">Email</label>
                         <input type="email" name="email" id="email" required
-                            class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev"
-                            value="{{ old('email') }}">
+                            class="w-full bg-darker border border-gray-700 rounded px-4 py-2 text-white focus:outline-none focus:border-dev {{ session('invitation_email') ? 'bg-gray-700' : '' }}"
+                            value="{{ old('email', session('invitation_email')) }}"
+                            {{ session('invitation_email') ? 'readonly' : '' }}>
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
