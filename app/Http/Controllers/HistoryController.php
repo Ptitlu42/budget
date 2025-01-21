@@ -8,7 +8,7 @@ use App\Models\History;
 use App\Models\Income;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
