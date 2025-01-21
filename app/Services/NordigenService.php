@@ -39,7 +39,7 @@ class NordigenService
             return $this->token['access'];
         }
 
-        throw new \Exception('Erreur lors de la récupération du token: ' . $response->body());
+        throw new \Exception('Error while retrieving token: ' . $response->body());
     }
 
     public function getBanks($country = 'FR')
@@ -53,7 +53,7 @@ class NordigenService
             return $response->json();
         }
 
-        throw new \Exception('Erreur lors de la récupération des banques: ' . $response->body());
+        throw new \Exception('Error while retrieving banks: ' . $response->body());
     }
 
     public function createRequisition($bankId, $redirectUrl)
@@ -69,7 +69,7 @@ class NordigenService
             return $response->json();
         }
 
-        throw new \Exception('Erreur lors de la création de la réquisition: ' . $response->body());
+        throw new \Exception('Error while creating requisition: ' . $response->body());
     }
 
     public function getAccounts($requisitionId)
@@ -81,7 +81,7 @@ class NordigenService
             return $response->json();
         }
 
-        throw new \Exception('Erreur lors de la récupération des comptes: ' . $response->body());
+        throw new \Exception('Error while retrieving accounts: ' . $response->body());
     }
 
     public function getAccountDetails($accountId)
@@ -93,7 +93,7 @@ class NordigenService
             return $response->json();
         }
 
-        throw new \Exception('Erreur lors de la récupération des détails du compte: ' . $response->body());
+        throw new \Exception('Error while retrieving account details: ' . $response->body());
     }
 
     public function getAccountBalances($accountId)
@@ -105,7 +105,7 @@ class NordigenService
             return $response->json();
         }
 
-        throw new \Exception('Erreur lors de la récupération des soldes: ' . $response->body());
+        throw new \Exception('Error while retrieving balances: ' . $response->body());
     }
 
     public function getAccountTransactions($accountId, $dateFrom = null, $dateTo = null)
@@ -120,6 +120,6 @@ class NordigenService
             return $response->json();
         }
 
-        throw new \Exception('Erreur lors de la récupération des transactions: ' . $response->body());
+        throw new \Exception('Error while retrieving transactions: ' . $response->body());
     }
 }

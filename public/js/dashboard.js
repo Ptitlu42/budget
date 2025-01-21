@@ -1,22 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const revenusChart = document.getElementById('revenusChart');
-    const depensesChart = document.getElementById('depensesChart');
-    if (!revenusChart || !depensesChart) return;
+    const incomeChart = document.getElementById('incomeChart');
+    const expensesChart = document.getElementById('expensesChart');
+    if (!incomeChart || !expensesChart) return;
 
-    const users = JSON.parse(revenusChart.dataset.users);
-    const expenses = JSON.parse(depensesChart.dataset.expenses);
+    const users = JSON.parse(incomeChart.dataset.users);
+    const expenses = JSON.parse(expensesChart.dataset.expenses);
 
-    initRevenusChart(users);
-    initDepensesChart(expenses);
+    initIncomeChart(users);
+    initExpensesChart(expenses);
 
     document.querySelectorAll('.progress-bar').forEach(bar => {
         bar.style.width = `${bar.dataset.width}%`;
     });
 });
 
-function initRevenusChart(users) {
+function initIncomeChart(users) {
     const isMobile = window.innerWidth < 768;
-    const revenusData = {
+    const incomeData = {
         labels: users.map(user => user.name),
         datasets: [{
             data: users.map(user => user.total_income),
@@ -27,9 +27,9 @@ function initRevenusChart(users) {
         }]
     };
 
-    new Chart(document.getElementById('revenusChart'), {
+    new Chart(document.getElementById('incomeChart'), {
         type: 'pie',
-        data: revenusData,
+        data: incomeData,
         options: {
             responsive: true,
             maintainAspectRatio: !isMobile,
@@ -49,7 +49,7 @@ function initRevenusChart(users) {
     });
 }
 
-function initDepensesChart(expenses) {
+function initExpensesChart(expenses) {
     const isMobile = window.innerWidth < 768;
     const labels = {
         rent: 'Rent',
@@ -59,7 +59,7 @@ function initDepensesChart(expenses) {
         other: 'Other'
     };
 
-    const depensesData = {
+    const expensesData = {
         labels: Object.values(labels),
         datasets: [{
             data: Object.values(expenses),
@@ -73,9 +73,9 @@ function initDepensesChart(expenses) {
         }]
     };
 
-    new Chart(document.getElementById('depensesChart'), {
+    new Chart(document.getElementById('expensesChart'), {
         type: 'pie',
-        data: depensesData,
+        data: expensesData,
         options: {
             responsive: true,
             maintainAspectRatio: !isMobile,

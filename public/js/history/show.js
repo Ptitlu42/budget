@@ -30,7 +30,7 @@ class HistoryCharts {
                         callbacks: {
                             label: function(context) {
                                 const value = context.raw;
-                                return `${context.label}: ${new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value)}`;
+                                return `${context.label}: ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(value)}`;
                             }
                         }
                     }
@@ -68,7 +68,7 @@ class HistoryCharts {
         if (!this.data.total_expenses) return;
 
         const expensesData = {
-            labels: ['Dépenses communes', 'Dépenses individuelles'],
+            labels: ['Shared Expenses', 'Individual Expenses'],
             datasets: [{
                 data: [
                     this.data.total_shared_expenses,

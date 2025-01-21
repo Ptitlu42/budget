@@ -49,7 +49,7 @@ class HistoryController extends Controller
         if (History::where('group_id', $user->group_id)
             ->where('month_year', $date)
             ->exists()) {
-            return redirect()->back()->withErrors(['month_year' => 'Un historique existe déjà pour ce mois dans votre groupe.']);
+            return redirect()->back()->withErrors(['month_year' => 'A history already exists for this month in your group.']);
         }
 
         $history = History::create([
@@ -144,7 +144,7 @@ class HistoryController extends Controller
     public function show(History $history)
     {
         if ($history->group_id !== Auth::user()->group_id) {
-            abort(403, 'Vous n\'avez pas accès à cet historique.');
+            abort(403, 'You do not have access to this history.');
         }
         return view('history.show', compact('history'));
     }
@@ -152,7 +152,7 @@ class HistoryController extends Controller
     public function edit(History $history)
     {
         if ($history->group_id !== Auth::user()->group_id) {
-            abort(403, 'Vous n\'avez pas accès à cet historique.');
+            abort(403, 'You do not have access to this history.');
         }
         return view('history.edit', compact('history'));
     }
@@ -160,7 +160,7 @@ class HistoryController extends Controller
     public function destroy(History $history)
     {
         if ($history->group_id !== Auth::user()->group_id) {
-            abort(403, 'Vous n\'avez pas accès à cet historique.');
+            abort(403, 'You do not have access to this history.');
         }
         $history->delete();
         return redirect('/history');
@@ -169,7 +169,7 @@ class HistoryController extends Controller
     public function update(Request $request, History $history)
     {
         if ($history->group_id !== Auth::user()->group_id) {
-            abort(403, 'Vous n\'avez pas accès à cet historique.');
+            abort(403, 'You do not have access to this history.');
         }
 
         $validated = $request->validate([

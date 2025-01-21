@@ -105,7 +105,7 @@
                     Income Distribution
                 </h2>
                 <div class="h-[300px] md:h-auto">
-                    <canvas id="revenusChart" class="w-full" data-users="{{ json_encode($users) }}"></canvas>
+                    <canvas id="incomeChart" class="w-full" data-users="{{ json_encode($users) }}"></canvas>
                 </div>
             </div>
         </div>

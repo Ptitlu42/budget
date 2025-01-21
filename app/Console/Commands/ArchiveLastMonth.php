@@ -20,7 +20,7 @@ class ArchiveLastMonth extends Command
      *
      * @var string
      */
-    protected $description = 'Archive le mois précédent dans l\'historique';
+    protected $description = 'Archive the previous month in history';
 
     /**
      * Execute the console command.
