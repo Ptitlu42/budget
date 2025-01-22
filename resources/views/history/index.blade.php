@@ -29,6 +29,11 @@
 
                 <div class="glass-effect p-4 md:p-6 mb-6">
                     <h2 class="text-lg md:text-xl font-bold mb-4">Income and Expenses Evolution</h2>
+                    <div class="mb-4">
+                        <div id="chartControls" class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm text-white mb-4">
+                            <!-- Checkboxes will be added here by JavaScript -->
+                        </div>
+                    </div>
                     <div class="h-[400px] md:h-[500px] lg:h-[600px]">
                         <canvas id="evolutionChart"
                             data-months="{{ json_encode($history->map(function($month) { return $month->month_year->format('F Y'); })) }}"
@@ -36,9 +41,45 @@
                             data-expenses="{{ json_encode($history->map(function($month) { return collect($month->data['expenses'])->sum('amount'); })) }}"
                             data-shared-expenses="{{ json_encode($history->map(function($month) { return collect($month->data['expenses'])->where('is_shared', true)->sum('amount'); })) }}"
                             data-individual-incomes="{{ json_encode($history->map(function($month) {
-                                return collect($month->data['incomes'])->groupBy('user_id')->map(function($incomes) {
-                                    return $incomes->sum('amount');
+                                return collect($month->data['incomes'])->groupBy('user_id')->mapWithKeys(function($incomes, $userId) {
+                                    $firstIncome = $incomes->first();
+                                    $userName = isset($firstIncome['user']) ? $firstIncome['user']['name'] : \App\Models\User::find($userId)?->name ?? 'Unknown';
+                                    return [
+                                        $userId => [
+                                            'amount' => $incomes->sum('amount'),
+                                            'name' => $userName
+                                        ]
+                                    ];
                                 });
+                            })) }}"
+                            data-individual-balances="{{ json_encode($history->map(function($month) {
+                                $totalIncome = collect($month->data['incomes'])->sum('amount');
+                                $totalExpenses = collect($month->data['expenses'])->sum('amount');
+                                $sharedExpenses = collect($month->data['expenses'])->where('is_shared', true)->sum('amount');
+
+                                return collect($month->data['incomes'])->groupBy('user_id')->mapWithKeys(function($incomes, $userId) use ($month, $totalIncome, $totalExpenses, $sharedExpenses) {
+                                    $userIncome = $incomes->sum('amount');
+                                    $userExpenses = collect($month->data['expenses'])->where('user_id', $userId)->where('is_shared', false)->sum('amount');
+
+                                    // Calculate user's share of shared expenses based on income ratio
+                                    $incomeRatio = $totalIncome > 0 ? $userIncome / $totalIncome : 0;
+                                    $userSharedExpenses = $sharedExpenses * $incomeRatio;
+
+                                    $balance = $userIncome - $userExpenses - $userSharedExpenses;
+                                    $userName = isset($incomes->first()['user']) ? $incomes->first()['user']['name'] : \App\Models\User::find($userId)?->name ?? 'Unknown';
+
+                                    return [
+                                        $userId => [
+                                            'amount' => $balance,
+                                            'name' => $userName
+                                        ]
+                                    ];
+                                });
+                            })) }}"
+                            data-group-balance="{{ json_encode($history->map(function($month) {
+                                $totalIncome = collect($month->data['incomes'])->sum('amount');
+                                $totalExpenses = collect($month->data['expenses'])->sum('amount');
+                                return $totalIncome - $totalExpenses;
                             })) }}">
                         </canvas>
                     </div>
