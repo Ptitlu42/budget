@@ -65,23 +65,29 @@ class HistoryCharts {
     }
 
     createExpensesChart() {
-        if (!this.data.total_expenses) return;
+        const expensesData = JSON.parse(document.getElementById('expensesChart').dataset.expenses || '{}');
+        if (Object.keys(expensesData).length === 0) return;
 
-        const expensesData = {
-            labels: ['Shared Expenses', 'Individual Expenses'],
+        const labels = {
+            rent: 'Rent',
+            insurance: 'Insurance',
+            utilities: 'Utilities',
+            groceries: 'Groceries',
+            other: 'Other'
+        };
+
+        const data = {
+            labels: Object.keys(expensesData).map(type => labels[type] || type),
             datasets: [{
-                data: [
-                    this.data.total_shared_expenses,
-                    this.data.total_expenses - this.data.total_shared_expenses
-                ],
-                backgroundColor: ['#6366F1', '#EC4899'],
+                data: Object.values(expensesData),
+                backgroundColor: ['#6366F1', '#EC4899', '#10B981', '#F59E0B', '#EF4444'],
                 borderWidth: 0
             }]
         };
 
         new Chart(
             document.getElementById('expensesChart'),
-            { ...this.chartConfig, data: expensesData }
+            { ...this.chartConfig, data: data }
         );
     }
 }

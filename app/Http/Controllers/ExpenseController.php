@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\Income;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ExpenseController extends Controller
 {
@@ -43,6 +44,11 @@ class ExpenseController extends Controller
             'is_shared' => 'boolean',
         ]);
 
+        $user = Auth::user();
+        $validated['user_id'] = $user->id;
+        $validated['group_id'] = $user->group_id;
+        $validated['is_shared'] = $request->has('is_shared');
+
         Expense::create($validated);
 
         return redirect()->route('expenses.index')->with('success', 'Expense added successfully');
@@ -71,6 +77,7 @@ class ExpenseController extends Controller
             'is_shared' => 'boolean',
         ]);
 
+        $validated['is_shared'] = $request->has('is_shared');
         $expense->update($validated);
 
         return redirect()->route('expenses.index')->with('success', 'Expense updated successfully');

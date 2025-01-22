@@ -173,7 +173,7 @@
                     Expenses by Category
                 </h2>
                 <div class="h-[300px] md:h-auto">
-                    <canvas id="depensesChart" class="w-full" data-expenses="{{ json_encode([
+                    <canvas id="expensesChart" class="w-full" data-expenses="{{ json_encode([
                         'rent' => App\Models\Expense::where('type', 'rent')->sum('amount'),
                         'insurance' => App\Models\Expense::where('type', 'insurance')->sum('amount'),
                         'utilities' => App\Models\Expense::where('type', 'utilities')->sum('amount'),

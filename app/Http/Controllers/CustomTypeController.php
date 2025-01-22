@@ -21,7 +21,7 @@ class CustomTypeController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Ce type existe déjà',
+                'message' => 'This type already exists',
             ], 422);
         }
     }

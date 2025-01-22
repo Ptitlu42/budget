@@ -35,13 +35,17 @@
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Income Distribution</h3>
                         <canvas id="incomesChart"
-                            data-shares="{{ json_encode(collect($history->data['incomes'])->groupBy('user_id')->map(function($incomes) use ($history) {
-                                $user = \App\Models\User::find($incomes->first()['user_id']);
+                            data-shares="{{ json_encode(collect($history->data['incomes'])->groupBy('user_id')->map(function($incomes) use($history) {
+                                $firstIncome = $incomes->first();
+                                $user = \App\Models\User::find($firstIncome['user_id']);
+                                $totalIncomes = collect($incomes)->sum('amount');
+                                $allIncomes = collect($history->data['incomes'])->sum('amount');
+
                                 return [
                                     'name' => $user->name,
                                     'email' => $user->email,
-                                    'total_income' => $incomes->sum('amount'),
-                                    'share_percentage' => (collect($history->data['incomes'])->sum('amount') > 0) ? ($incomes->sum('amount') / collect($history->data['incomes'])->sum('amount') * 100) : 0,
+                                    'total_income' => $totalIncomes,
+                                    'share_percentage' => ($allIncomes > 0) ? ($totalIncomes / $allIncomes * 100) : 0,
                                 ];
                             })->values()) }}"
                             data-total-expenses="{{ collect($history->data['expenses'])->sum('amount') }}"
@@ -51,8 +55,9 @@
                     <div class="glass-effect p-4 rounded">
                         <h3 class="text-lg font-semibold mb-4">Expenses Distribution</h3>
                         <canvas id="expensesChart"
-                            data-total-expenses="{{ collect($history->data['expenses'])->sum('amount') }}"
-                            data-total-shared-expenses="{{ collect($history->data['expenses'])->where('is_shared', true)->sum('amount') }}">
+                            data-expenses="{{ json_encode(collect($history->data['expenses'])->groupBy('type')->map(function($expenses) {
+                                return collect($expenses)->sum('amount');
+                            })) }}">
                         </canvas>
                     </div>
                 </div>

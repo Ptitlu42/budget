@@ -67,21 +67,15 @@ class HistoryController extends Controller
         $user = Auth::user();
         $currentMonth = Carbon::now()->startOfMonth();
 
-        if (History::where('user_id', $user->id)
-            ->where('group_id', $user->group_id)
+        if (History::where('group_id', $user->group_id)
             ->where('month_year', $currentMonth)
             ->exists()) {
             return redirect()->back()->withErrors(['month' => 'History for this month already exists']);
         }
 
+        // Get all group incomes
         $incomes = Income::with(['user'])
-            ->where(function($query) use ($user) {
-                $query->where('user_id', $user->id)
-                    ->orWhere(function($q) use ($user) {
-                        $q->where('group_id', $user->group_id)
-                            ->where('is_shared', true);
-                    });
-            })
+            ->where('group_id', $user->group_id)
             ->get()
             ->map(function ($income) {
                 return [
@@ -102,13 +96,7 @@ class HistoryController extends Controller
             });
 
         $expenses = Expense::with(['user'])
-            ->where(function($query) use ($user) {
-                $query->where('user_id', $user->id)
-                    ->orWhere(function($q) use ($user) {
-                        $q->where('group_id', $user->group_id)
-                            ->where('is_shared', true);
-                    });
-            })
+            ->where('group_id', $user->group_id)
             ->get()
             ->map(function ($expense) {
                 return [

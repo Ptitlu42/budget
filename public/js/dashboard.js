@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const expensesChart = document.getElementById('expensesChart');
     if (!incomeChart || !expensesChart) return;
 
-    const users = JSON.parse(incomeChart.dataset.users);
-    const expenses = JSON.parse(expensesChart.dataset.expenses);
+    const users = JSON.parse(incomeChart.dataset.users || '[]');
+    const expenses = JSON.parse(expensesChart.dataset.expenses || '{}');
 
     initIncomeChart(users);
     initExpensesChart(expenses);
@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initIncomeChart(users) {
+    if (!users.length) return;
+
     const isMobile = window.innerWidth < 768;
     const incomeData = {
         labels: users.map(user => user.name),
@@ -43,6 +45,14 @@ function initIncomeChart(users) {
                         },
                         padding: isMobile ? 10 : 20
                     }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw;
+                            return `${context.label}: ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(value)}`;
+                        }
+                    }
                 }
             }
         }
@@ -50,6 +60,8 @@ function initIncomeChart(users) {
 }
 
 function initExpensesChart(expenses) {
+    if (!Object.keys(expenses).length) return;
+
     const isMobile = window.innerWidth < 768;
     const labels = {
         rent: 'Rent',
@@ -88,6 +100,14 @@ function initExpensesChart(expenses) {
                             size: isMobile ? 12 : 14
                         },
                         padding: isMobile ? 10 : 20
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const value = context.raw;
+                            return `${context.label}: ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'EUR' }).format(value)}`;
+                        }
                     }
                 }
             }
